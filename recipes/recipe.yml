@@ -27,5 +27,4 @@ modules:
     system:
       enabled:
         - incus.service
-        - incus-lxcfs.service
   - type: signing
