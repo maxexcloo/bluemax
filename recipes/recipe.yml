@@ -9,10 +9,12 @@ modules:
     install:
       - incus
       - incus-client
+      - kde-partitionmanager
     remove:
-      # List packages included in Bazzite that you want to strip out
-      - firefox # Example: Removing the RPM version if you prefer Flatpak
-      - gnome-software # Example
+      - gnome-disk-utility
+      - ptyxis
+      - hhd
+      - hhd-ui
   - type: systemd
     system:
       enabled:
