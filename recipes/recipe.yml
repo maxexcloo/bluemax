@@ -12,13 +12,17 @@ modules:
       - kde-partitionmanager
     remove:
       - fcitx5-chinese-addons
+      - fcitx5-chinese-addons-data
       - fcitx5-hangul
       - fcitx5-mozc
+      - kcm-fcitx5
+      - krdc
+      - krdc-libs
+      - krfb
+      - krfb-libs
       - gnome-disk-utility
       - hhd
       - hhd-ui
-      - kcm-fcitx5
-      - krdc
       - kwrite
       - ptyxis
       - rom-properties-kf6
