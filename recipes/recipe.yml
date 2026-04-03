@@ -11,21 +11,47 @@ modules:
       - incus-client
       - kde-partitionmanager
     remove:
+      - fcitx5
+      - fcitx5-chewing
       - fcitx5-chinese-addons
       - fcitx5-chinese-addons-data
+      - fcitx5-configtool
+      - fcitx5-data
+      - fcitx5-gtk
+      - fcitx5-gtk2
+      - fcitx5-gtk3
+      - fcitx5-gtk4
       - fcitx5-hangul
+      - fcitx5-libs
+      - fcitx5-libthai
+      - fcitx5-lua
+      - fcitx5-m17n
       - fcitx5-mozc
+      - fcitx5-qt
+      - fcitx5-qt-libfcitx5qt6widgets
+      - fcitx5-qt-libfcitx5qtdbus
+      - fcitx5-qt-qt6gui
+      - fcitx5-qt5
+      - fcitx5-qt6
+      - fcitx5-sayura
+      - fcitx5-unikey
+      - filelight
+      - gnome-disk-utility
+      - hhd
+      - hhd-ui
       - kcm-fcitx5
+      - kfind
       - krdc
       - krdc-libs
       - krfb
       - krfb-libs
-      - gnome-disk-utility
-      - hhd
-      - hhd-ui
       - kwrite
       - ptyxis
+      - rom-properties
+      - rom-properties-common
       - rom-properties-kf6
+      - rom-properties-thumbnailer-dbus
+      - rom-properties-utils
       - webapp-manager
   - type: systemd
     system:
