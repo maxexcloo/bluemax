@@ -46,6 +46,8 @@ modules:
       - krfb
       - krfb-libs
       - kwrite
+      - libime
+      - libime-data
       - ptyxis
       - rom-properties
       - rom-properties-common
