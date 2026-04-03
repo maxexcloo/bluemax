@@ -11,10 +11,18 @@ modules:
       - incus-client
       - kde-partitionmanager
     remove:
+      - fcitx5-chinese-addons
+      - fcitx5-hangul
+      - fcitx5-mozc
       - gnome-disk-utility
-      - ptyxis
       - hhd
       - hhd-ui
+      - kcm-fcitx5
+      - krdc
+      - kwrite
+      - ptyxis
+      - rom-properties-kf6
+      - webapp-manager
   - type: systemd
     system:
       enabled:
