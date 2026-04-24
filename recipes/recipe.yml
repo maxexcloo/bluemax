@@ -5,6 +5,13 @@ description: Max's Bazzite Image
 image-version: latest
 name: bluemax
 modules:
+  - type: default-flatpaks
+    configurations:
+      - install:
+          - com.github.zocker_160.SyncThingy
+          - com.steamgriddb.steam-rom-manager
+          - io.github.ryubing.Ryujinx
+          - net.retrodeck.retrodeck
   - type: rpm-ostree
     install:
       - incus
