@@ -55,6 +55,12 @@ modules:
       - rom-properties-thumbnailer-dbus
       - rom-properties-utils
       - webapp-manager
+  - type: script
+    snippets:
+      - "rm -f /usr/share/applications/bazzite-documentation.desktop"
+      - "rm -f /usr/share/applications/discourse.desktop"
+      - "rm -f /usr/share/applications/org.kde.kdebugsettings.desktop"
+      - "rm -rf /usr/share/applications/steam"
   - type: systemd
     system:
       enabled:
