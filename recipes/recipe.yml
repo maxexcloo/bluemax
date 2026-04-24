@@ -57,6 +57,8 @@ modules:
       - webapp-manager
   - type: script
     snippets:
+      - "curl -Lo /usr/bin/cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
+      - "chmod +x /usr/bin/cloudflared"
       - "rm -f /usr/share/applications/bazzite-documentation.desktop"
       - "rm -f /usr/share/applications/discourse.desktop"
       - "rm -f /usr/share/applications/org.kde.kdebugsettings.desktop"
