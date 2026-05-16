@@ -13,10 +13,13 @@ modules:
           - io.github.ryubing.Ryujinx
           - net.retrodeck.retrodeck
   - type: rpm-ostree
+    copr:
+      - pvermeer/sunshine
     install:
       - incus
       - incus-client
       - kde-partitionmanager
+      - sunshine
     remove:
       - fcitx5
       - fcitx5-chewing
