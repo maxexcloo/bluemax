@@ -13,31 +13,33 @@ modules:
           - io.github.ryubing.Ryujinx
           - net.retrodeck.retrodeck
   - type: dnf
-    repos:
-      copr:
-        - pvermeer/sunshine
     install:
       packages:
         - incus
         - incus-client
         - kde-partitionmanager
-        - sunshine
     remove:
       packages:
-        - "fcitx5*"
+        - "*fcitx5*"
+        - "*rom-properties*" 
         - "hhd*"
         - "krdc*"
         - "krfb*"
         - "libime*"
-        - "rom-properties*"
         - filelight
         - gnome-disk-utility
-        - kcm-fcitx5
         - kfind
         - kwrite
         - ptyxis
-        - Sunshine
         - webapp-manager
+    replace:
+      - from-repo: copr:copr.fedorainfracloud.org:pvermeer:sunshine
+        packages:
+          - old: Sunshine
+            new: sunshine
+    repos:
+      copr:
+        - pvermeer/sunshine
   - type: script
     snippets:
       - "curl -Lo /usr/bin/cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
