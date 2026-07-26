@@ -19,9 +19,6 @@ modules:
         - incus
         - incus-client
         - kde-partitionmanager
-        - no-gpgchecks: true
-          packages:
-            - https://github.com/hgaiser/moonshine/releases/download/v0.13.5/moonshine-0.13.5-1.x86_64.rpm
     remove:
       packages:
         - "*fcitx5*"
@@ -46,6 +43,11 @@ modules:
         - pvermeer/sunshine
       files:
         - https://pkg.cloudflare.com/cloudflared.repo
+  - type: dnf
+    install:
+      no-gpgchecks: true
+      packages:
+        - https://github.com/hgaiser/moonshine/releases/download/v0.13.5/moonshine-0.13.5-1.x86_64.rpm
   - type: script
     snippets:
       - "rm -f /usr/share/applications/bazzite-documentation.desktop"
