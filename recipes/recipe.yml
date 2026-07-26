@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 base-image: ghcr.io/ublue-os/bazzite-deck
 description: Max's Bazzite Image
-image-version: latest
+image-version: stable
 name: bluemax
 modules:
   - type: default-flatpaks
@@ -15,13 +15,17 @@ modules:
   - type: dnf
     install:
       packages:
+        - cloudflared
         - incus
         - incus-client
         - kde-partitionmanager
+        - no-gpgchecks: true
+          packages:
+            - https://github.com/hgaiser/moonshine/releases/download/v0.13.5/moonshine-0.13.5-1.x86_64.rpm
     remove:
       packages:
         - "*fcitx5*"
-        - "*rom-properties*" 
+        - "*rom-properties*"
         - "hhd*"
         - "krdc*"
         - "krfb*"
@@ -40,10 +44,10 @@ modules:
     repos:
       copr:
         - pvermeer/sunshine
+      files:
+        - https://pkg.cloudflare.com/cloudflared.repo
   - type: script
     snippets:
-      - "curl -Lo /usr/bin/cloudflared https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
-      - "chmod +x /usr/bin/cloudflared"
       - "rm -f /usr/share/applications/bazzite-documentation.desktop"
       - "rm -f /usr/share/applications/bbrew.desktop"
       - "rm -f /usr/share/applications/discourse.desktop"

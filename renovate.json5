@@ -1,0 +1,33 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "dependencyDashboard": true,
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Track the Moonshine release RPM",
+      "managerFilePatterns": [
+        "/^recipes\\/.*\\.ya?ml$/"
+      ],
+      "matchStrings": [
+        "(?<indentation>\\s*)- https://github\\.com/hgaiser/moonshine/releases/download/v(?<currentValue>[^/]+)/moonshine-[^/]+-1\\.x86_64\\.rpm"
+      ],
+      "depNameTemplate": "hgaiser/moonshine",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "semver",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
+      "autoReplaceStringTemplate": "{{{indentation}}}- https://github.com/hgaiser/moonshine/releases/download/v{{{newValue}}}/moonshine-{{{newValue}}}-1.x86_64.rpm"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Group GitHub Actions updates",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "GitHub Actions"
+    }
+  ]
+}
