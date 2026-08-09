@@ -1,27 +1,31 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "dependencyDashboard": true,
   "customManagers": [
     {
+      "autoReplaceStringTemplate": "{{{indentation}}}- https://github.com/hgaiser/moonshine/releases/download/v{{{newValue}}}/moonshine-{{{newValue}}}-1.x86_64.rpm",
       "customType": "regex",
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "hgaiser/moonshine",
       "description": "Track the Moonshine release RPM",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
       "managerFilePatterns": ["/^recipes\\/.*\\.ya?ml$/"],
       "matchStrings": [
         "(?<indentation>\\s*)- https://github\\.com/hgaiser/moonshine/releases/download/v(?<currentValue>[^/]+)/moonshine-[^/]+-1\\.x86_64\\.rpm"
       ],
-      "depNameTemplate": "hgaiser/moonshine",
-      "datasourceTemplate": "github-releases",
-      "versioningTemplate": "semver",
-      "extractVersionTemplate": "^v?(?<version>.*)$",
-      "autoReplaceStringTemplate": "{{{indentation}}}- https://github.com/hgaiser/moonshine/releases/download/v{{{newValue}}}/moonshine-{{{newValue}}}-1.x86_64.rpm"
+      "versioningTemplate": "semver"
     }
   ],
   "packageRules": [
     {
-      "description": "Group GitHub Actions updates",
-      "groupName": "GitHub Actions",
-      "matchManagers": ["github-actions"]
+      "description": "Group minor updates",
+      "groupName": "Minor updates",
+      "matchUpdateTypes": ["minor"]
+    },
+    {
+      "description": "Group patch and pin updates",
+      "groupName": "Patch and pin updates",
+      "matchUpdateTypes": ["patch", "pin"]
     }
   ]
 }
