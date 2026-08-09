@@ -32,3 +32,7 @@ These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](ht
 ```bash
 cosign verify --key cosign.pub ghcr.io/maxexcloo/bluemax
 ```
+
+## Licence
+
+Apache-2.0 - see [LICENSE](LICENSE).
