@@ -1,4 +1,4 @@
-name: bluebuild
+name: BlueBuild
 
 on:
   pull_request:
@@ -6,9 +6,13 @@ on:
     paths-ignore:
       - "**.md"
   schedule:
-    - cron:
-        "00 06 * * *"
+    - cron: "00 06 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
 
 concurrency:
   cancel-in-progress: true
@@ -18,10 +22,6 @@ jobs:
   bluebuild:
     name: Build Custom Image
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-      packages: write
     strategy:
       fail-fast: false
       matrix:

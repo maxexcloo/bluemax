@@ -4,6 +4,7 @@ base-image: ghcr.io/ublue-os/bazzite-deck
 description: Max's Bazzite Image
 image-version: stable
 name: bluemax
+
 modules:
   - type: default-flatpaks
     configurations:
