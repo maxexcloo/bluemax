@@ -1,4 +1,4 @@
-# bluemax &nbsp; [![bluebuild build badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yml)
+# bluemax &nbsp; [![bluebuild build badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
 See the [BlueBuild docs](https://blue-build.org/how-to/setup/) for quick setup instructions.
 

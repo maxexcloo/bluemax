@@ -13,6 +13,8 @@
 - Sort unordered peer headings, lists, and table rows alphabetically. Preserve
   narrative, procedural, dependency, interface, priority, and chronological order.
 - Preserve meaningful list order, including module dependency order.
+- Use `.yaml` for GitHub Actions workflows. Keep BlueBuild recipes as `.yml` to
+  follow its external convention.
 - Preserve `LICENSE` and its legal text; never relicense without explicit approval.
 - Use Australian English throughout authored prose and every project-owned name,
   including identifiers, configuration keys, environment variables, paths, CLI
