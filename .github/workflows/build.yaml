@@ -1,7 +1,6 @@
 name: BlueBuild
 
 on:
-  pull_request:
   push:
     paths-ignore:
       - "**.md"
@@ -11,12 +10,11 @@ on:
 
 permissions:
   contents: read
-  id-token: write
   packages: write
 
 concurrency:
   cancel-in-progress: true
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   bluebuild:
@@ -27,6 +25,5 @@ jobs:
         uses: blue-build/github-action@v1.12.0
         with:
           cosign_private_key: ${{ secrets.SIGNING_SECRET }}
-          pr_event_number: ${{ github.event.number }}
           recipe: recipe.yaml
           registry_token: ${{ github.token }}

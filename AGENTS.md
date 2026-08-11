@@ -2,6 +2,7 @@
 
 ## Structure
 
+- Keep `cosign.pub` at the repository root as required by BlueBuild.
 - Keep image recipes in `recipes/`.
 - Keep only `AGENTS.md` and `README.md` as root Markdown files; put other project
   documentation in `docs/`.
