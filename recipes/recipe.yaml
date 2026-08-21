@@ -17,28 +17,19 @@ modules:
     install:
       packages:
         - cloudflared
-        - incus
-        - incus-client
         - kde-partitionmanager
+        - sunshine
     remove:
       packages:
         - "*fcitx5*"
         - "*rom-properties*"
-        - "hhd*"
         - "krdc*"
-        - "krfb*"
         - "libime*"
         - filelight
         - gnome-disk-utility
         - kfind
         - kwrite
-        - ptyxis
         - webapp-manager
-    replace:
-      - from-repo: copr:copr.fedorainfracloud.org:pvermeer:sunshine
-        packages:
-          - old: Sunshine
-            new: sunshine
     repos:
       copr:
         - pvermeer/sunshine
@@ -50,9 +41,5 @@ modules:
       - "rm -f /usr/share/applications/bbrew.desktop"
       - "rm -f /usr/share/applications/discourse.desktop"
       - "rm -f /usr/share/applications/org.kde.kdebugsettings.desktop"
-      - "rm -rf /usr/share/applications/steam"
-  - type: systemd
-    system:
-      enabled:
-        - incus.service
+      - "rm -f /usr/share/applications/steam.desktop"
   - type: signing
