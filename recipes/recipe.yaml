@@ -26,12 +26,12 @@ modules:
       packages:
         - "*fcitx5*"
         - "*rom-properties*"
-        - "krdc*"
-        - "libime*"
         - filelight
         - gnome-disk-utility
         - kfind
+        - "krdc*"
         - kwrite
+        - "libime*"
         - webapp-manager
     repos:
       copr:
