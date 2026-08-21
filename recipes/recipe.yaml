@@ -13,6 +13,9 @@ modules:
           - com.steamgriddb.steam-rom-manager
           - io.github.ryubing.Ryujinx
           - net.retrodeck.retrodeck
+  - type: script
+    snippets:
+      - "mkdir -p /usr/local/bin"
   - type: dnf
     install:
       packages:
