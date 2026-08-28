@@ -8,7 +8,8 @@ name: bluemax
 modules:
   - type: default-flatpaks
     configurations:
-      - install:
+      - scope: system
+        install:
           - com.github.zocker_160.SyncThingy
           - com.steamgriddb.steam-rom-manager
           - io.github.ryubing.Ryujinx
