@@ -6,6 +6,19 @@ Cloudflare Tunnel, KDE Partition Manager, Sunshine, and a curated set of gaming
 Flatpaks. The complete image configuration is in
 [`recipes/recipe.yaml`](recipes/recipe.yaml).
 
+## Building
+
+On an x86-64 Linux host with [BlueBuild](https://github.com/blue-build/cli#installation) and a
+supported container engine installed, build locally without publishing:
+
+```bash
+bluebuild build recipes/recipe.yaml
+```
+
+The GitHub workflow builds pull requests without publishing or signing them.
+Pushes to `main`, daily scheduled builds, and manual runs on `main` publish the
+signed image using the repository's `SIGNING_SECRET`.
+
 ## Installation
 
 To rebase an existing atomic Fedora installation to the latest build:
@@ -36,6 +49,10 @@ To rebase an existing atomic Fedora installation to the latest build:
 
 The `latest` tag automatically points to the newest build. The image follows Bazzite Deck's upstream `stable` channel, including Fedora major-version transitions when Bazzite promotes them.
 
+## Licence
+
+Apache-2.0 - see [LICENSE](LICENSE).
+
 ## Verification
 
 These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). You can verify the signature by downloading the `cosign.pub` file from this repo and running the following command:
@@ -43,7 +60,3 @@ These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](ht
 ```bash
 cosign verify --key cosign.pub ghcr.io/maxexcloo/bluemax
 ```
-
-## Licence
-
-Apache-2.0 - see [LICENSE](LICENSE).

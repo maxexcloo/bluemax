@@ -16,6 +16,7 @@ modules:
           - net.retrodeck.retrodeck
   - type: script
     snippets:
+      # cloudflared requires this directory during installation.
       - "mkdir -p /usr/local/bin"
   - type: dnf
     install:
@@ -41,9 +42,10 @@ modules:
         - https://pkg.cloudflare.com/cloudflared.repo
   - type: script
     snippets:
-      - "rm -f /usr/share/applications/bazzite-documentation.desktop"
-      - "rm -f /usr/share/applications/bbrew.desktop"
-      - "rm -f /usr/share/applications/discourse.desktop"
-      - "rm -f /usr/share/applications/org.kde.kdebugsettings.desktop"
-      - "rm -f /usr/share/applications/steam.desktop"
+      - |
+        rm -f /usr/share/applications/bazzite-documentation.desktop \
+          /usr/share/applications/bbrew.desktop \
+          /usr/share/applications/discourse.desktop \
+          /usr/share/applications/org.kde.kdebugsettings.desktop \
+          /usr/share/applications/steam.desktop
   - type: signing
