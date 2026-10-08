@@ -22,8 +22,8 @@ modules:
     install:
       packages:
         - cloudflared
+        - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora%OS_VERSION%-x86_64.rpm
         - kde-partitionmanager
-        - sunshine
     remove:
       packages:
         - "*fcitx5*"
@@ -34,15 +34,11 @@ modules:
         - "krdc*"
         - kwrite
         - "libime*"
+        - sunshine
         - webapp-manager
     repos:
-      copr:
-        - pvermeer/sunshine
       files:
         - https://pkg.cloudflare.com/cloudflared.repo
-  - type: script
-    scripts:
-      - install-polaris.sh
   - type: script
     snippets:
       - |
