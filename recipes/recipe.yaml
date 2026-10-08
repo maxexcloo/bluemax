@@ -60,6 +60,7 @@ modules:
   - type: script
     snippets:
       - |
+        set -o pipefail
         for initramfs_image in /usr/lib/modules/*/initramfs.img; do
           lsinitrd --file usr/lib/firmware/edid/streaming.bin "$initramfs_image" |
             cmp /usr/lib/firmware/edid/streaming.bin -

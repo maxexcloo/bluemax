@@ -1,6 +1,7 @@
 name: BlueBuild
 
 on:
+  workflow_dispatch:
   pull_request:
     paths-ignore:
       - "**.md"
@@ -11,7 +12,6 @@ on:
       - "**.md"
   schedule:
     - cron: "00 06 * * *"
-  workflow_dispatch:
 
 permissions:
   contents: read

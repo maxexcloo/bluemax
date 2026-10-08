@@ -9,6 +9,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+if len(sys.argv) != 2 or sys.argv[1] not in ("apply", "restore"):
+    sys.exit("Usage: polaris-display-mode apply|restore")
+
 runtime = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}"))
 state = runtime / "polaris-display-mode.saved"
 mode_file = Path.home() / ".config/gamescope/modes.cfg"
@@ -69,7 +72,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         modes = [
             m
             for m in output["modes"]
-            if m["size"] == {"width": width, "height": height}
+            if m["size"] == {"height": height, "width": width}
         ]
         if not modes:
             sys.exit(
@@ -78,7 +81,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         mode = min(modes, key=lambda m: abs(m["refreshRate"] - fps))
         if not kde_state.exists():
             kde_state.write_text(
-                json.dumps({"output": output["name"], "mode": output["currentModeId"]})
+                json.dumps({"mode": output["currentModeId"], "output": output["name"]})
             )
         run("kscreen-doctor", f"output.{output['name']}.mode.{mode['id']}")
         print(f"KDE display: {mode['name']}; stream: {fps:g} FPS", flush=True)
@@ -88,8 +91,6 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
             apply(state.read_text())
             state.unlink()
         sys.exit(0)
-    if sys.argv[1] != "apply":
-        sys.exit("Use apply or restore")
     if not mode_file.exists():
         sys.exit(0)
     try:
