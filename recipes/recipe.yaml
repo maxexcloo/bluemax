@@ -39,6 +39,10 @@ modules:
     repos:
       files:
         - https://pkg.cloudflare.com/cloudflared.repo
+  - type: files
+    files:
+      - source: system
+        destination: /
   - type: script
     snippets:
       - |
@@ -47,4 +51,12 @@ modules:
           /usr/share/applications/discourse.desktop \
           /usr/share/applications/org.kde.kdebugsettings.desktop \
           /usr/share/applications/steam.desktop
+  - type: initramfs
+  - type: script
+    snippets:
+      - |
+        for initramfs_image in /usr/lib/modules/*/initramfs.img; do
+          lsinitrd --file usr/lib/firmware/edid/streaming.bin "$initramfs_image" |
+            cmp /usr/lib/firmware/edid/streaming.bin -
+        done
   - type: signing

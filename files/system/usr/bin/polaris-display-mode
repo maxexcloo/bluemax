@@ -1,0 +1,130 @@
+#!/usr/bin/python3
+"""Match KDE or Gamescope to the client mode and restore on disconnect."""
+
+import fcntl
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+runtime = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}"))
+state = runtime / "polaris-display-mode.saved"
+mode_file = Path.home() / ".config/gamescope/modes.cfg"
+env = dict(os.environ, DISPLAY=":0")
+
+
+def run(*args):
+    return subprocess.check_output(args, env=env, text=True, timeout=5)
+
+
+def apply(text):
+    temporary = mode_file.with_suffix(".polaris-tmp")
+    temporary.write_text(text)
+    temporary.replace(mode_file)
+    run(
+        "xprop",
+        "-root",
+        "-f",
+        "GAMESCOPE_DISPLAY_MODE_NUDGE",
+        "32c",
+        "-set",
+        "GAMESCOPE_DISPLAY_MODE_NUDGE",
+        "1",
+    )
+
+
+with (runtime / "polaris-display-mode.lock").open("w") as lock:
+    fcntl.flock(lock, fcntl.LOCK_EX)
+    # The service can outlive a switch between Game Mode and KDE.
+    session = dict(
+        line.split("=", 1)
+        for line in run("systemctl", "--user", "show-environment").splitlines()
+        if "=" in line
+    )
+    for key in ("DISPLAY", "WAYLAND_DISPLAY", "XDG_CURRENT_DESKTOP"):
+        if key in session:
+            env[key] = session[key]
+    kde_state = runtime / "polaris-display-mode-kde.saved"
+    if (
+        sys.argv[1] == "restore"
+        and kde_state.exists()
+        and "KDE" in env.get("XDG_CURRENT_DESKTOP", "")
+    ):
+        saved = json.loads(kde_state.read_text())
+        run("kscreen-doctor", f"output.{saved['output']}.mode.{saved['mode']}")
+        kde_state.unlink()
+        sys.exit(0)
+    if sys.argv[1] == "apply" and "KDE" in env.get("XDG_CURRENT_DESKTOP", ""):
+        outputs = json.loads(run("kscreen-doctor", "--json"))["outputs"]
+        output = next(
+            (o for o in outputs if o["name"] == "DP-3" and o["enabled"]), None
+        )
+        if output is None:
+            sys.exit("KDE output DP-3 is unavailable; leaving the display unchanged")
+        width = int(os.environ["POLARIS_CLIENT_WIDTH"])
+        height = int(os.environ["POLARIS_CLIENT_HEIGHT"])
+        fps = float(os.environ["POLARIS_CLIENT_FPS"])
+        modes = [
+            m
+            for m in output["modes"]
+            if m["size"] == {"width": width, "height": height}
+        ]
+        if not modes:
+            sys.exit(
+                f"Unsupported KDE size {width}x{height}; leaving the display unchanged"
+            )
+        mode = min(modes, key=lambda m: abs(m["refreshRate"] - fps))
+        if not kde_state.exists():
+            kde_state.write_text(
+                json.dumps({"output": output["name"], "mode": output["currentModeId"]})
+            )
+        run("kscreen-doctor", f"output.{output['name']}.mode.{mode['id']}")
+        print(f"KDE display: {mode['name']}; stream: {fps:g} FPS", flush=True)
+        sys.exit(0)
+    if sys.argv[1] == "restore":
+        if state.exists():
+            apply(state.read_text())
+            state.unlink()
+        sys.exit(0)
+    if sys.argv[1] != "apply":
+        sys.exit("Use apply or restore")
+    if not mode_file.exists():
+        sys.exit(0)
+    try:
+        info = run("gamescopectl")
+    except subprocess.CalledProcessError:
+        sys.exit(0)
+    make = re.search(r"Display Make: (.+)", info)
+    model = re.search(r"Display Model: (.+)", info)
+    if not make or not model:
+        sys.exit(0)
+    prefix = f"{make[1]} {model[1]}:"
+    original = mode_file.read_text()
+    line = next(
+        (line for line in original.splitlines() if line.startswith(prefix)), None
+    )
+    if line is None:
+        sys.exit("No saved Gamescope mode; leaving the display unchanged")
+    width = int(os.environ["POLARIS_CLIENT_WIDTH"])
+    height = int(os.environ["POLARIS_CLIENT_HEIGHT"])
+    fps = float(os.environ["POLARIS_CLIENT_FPS"])
+    modes = run("xprop", "-root", "GAMESCOPE_DISPLAY_MODE_LIST_EXTERNAL")
+    rates = [
+        int(rate)
+        for w, h, rate in re.findall(r"(\d+)x(\d+)@(\d+)", modes)
+        if (int(w), int(h)) == (width, height)
+    ]
+    if not rates:
+        print(
+            f"Unsupported host size {width}x{height}; keeping the host mode", flush=True
+        )
+        sys.exit(0)
+    rate = min(rates, key=lambda rate: (rate < fps, abs(rate - fps)))
+    suffix = line.split(" ")[-1] if re.search(r" \d+$", line) else "0"
+    if not state.exists():
+        state.write_text(original)
+    replacement = f"{prefix}{width}x{height}@{rate} {suffix}"
+    apply(original.replace(line, replacement, 1))
+    print(f"Host display: {width}x{height}@{rate}; stream: {fps:g} FPS", flush=True)
