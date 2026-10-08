@@ -78,27 +78,6 @@ Enable the EDID on Mandu once, then reboot:
 sudo rpm-ostree kargs --append-if-missing=drm.edid_firmware=DP-3:edid/streaming.bin
 ```
 
-After booting an image containing these files, remove Mandu's previous local
-EDID override so future image updates supply the firmware:
-
-```bash
-test -f /usr/lib/firmware/edid/streaming.bin &&
-  sudo rpm-ostree initramfs-etc --untrack=/etc/firmware/edid/streaming.bin &&
-  sudo rpm-ostree kargs --delete-if-present=firmware_class.path=/etc/firmware &&
-  sudo rm /etc/firmware/edid/streaming.bin
-```
-
-Reboot after this migration. Existing Polaris users keep their app configuration:
-set Desktop's connect/disconnect commands to `/usr/bin/polaris-display-mode apply`
-and `/usr/bin/polaris-display-mode restore`, then remove the old
-`~/.local/bin/polaris-display-mode` copy. New configurations use the bundled app
-template automatically; pairing data and credentials remain local.
-
-The image also supplies `syncthingy.service`. Existing users can remove their
-identical `~/.config/systemd/user/syncthingy.service` copy after updating, run
-`systemctl --user daemon-reload`, then `systemctl --user reenable syncthingy.service`
-to point the startup symlink at the image's unit.
-
 ## Verification
 
 These images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). You can verify the signature by downloading the `cosign.pub` file from this repo and running the following command:

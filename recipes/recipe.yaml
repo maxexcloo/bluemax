@@ -32,8 +32,10 @@ modules:
         - gnome-disk-utility
         - kfind
         - "krdc*"
+        - "krfb*"
         - kwrite
         - "libime*"
+        - lutris
         - sunshine
         - webapp-manager
     repos:
@@ -41,16 +43,19 @@ modules:
         - https://pkg.cloudflare.com/cloudflared.repo
   - type: files
     files:
-      - source: system
-        destination: /
+      - destination: /
+        source: system
   - type: script
     snippets:
       - |
-        rm -f /usr/share/applications/bazzite-documentation.desktop \
+        for desktop_entry in \
+          /usr/share/applications/bazzite-documentation.desktop \
           /usr/share/applications/bbrew.desktop \
           /usr/share/applications/discourse.desktop \
           /usr/share/applications/org.kde.kdebugsettings.desktop \
-          /usr/share/applications/steam.desktop
+          /usr/share/applications/steam.desktop; do
+          desktop-file-edit --set-key=NoDisplay --set-value=true "$desktop_entry"
+        done
   - type: initramfs
   - type: script
     snippets:
