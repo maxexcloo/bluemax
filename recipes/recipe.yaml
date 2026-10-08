@@ -41,6 +41,9 @@ modules:
       files:
         - https://pkg.cloudflare.com/cloudflared.repo
   - type: script
+    scripts:
+      - install-polaris.sh
+  - type: script
     snippets:
       - |
         rm -f /usr/share/applications/bazzite-documentation.desktop \
