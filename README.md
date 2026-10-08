@@ -96,7 +96,8 @@ template automatically; pairing data and credentials remain local.
 
 The image also supplies `syncthingy.service`. Existing users can remove their
 identical `~/.config/systemd/user/syncthingy.service` copy after updating, run
-`systemctl --user daemon-reload`, and retain their existing service enablement.
+`systemctl --user daemon-reload`, then `systemctl --user reenable syncthingy.service`
+to point the startup symlink at the image's unit.
 
 ## Verification
 
