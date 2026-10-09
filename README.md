@@ -1,4 +1,4 @@
-# bluemax &nbsp; [![bluebuild build badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
+# Bluemax &nbsp; [![BlueBuild Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
 bluemax is a personal [Bazzite Deck](https://bazzite.gg/) image for handheld
 gaming and remote access. It follows Bazzite's `stable` channel and adds

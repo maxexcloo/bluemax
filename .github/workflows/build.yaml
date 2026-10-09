@@ -23,10 +23,10 @@ concurrency:
 
 jobs:
   bluebuild:
-    name: Build custom image
+    name: Build Custom Image
     runs-on: ubuntu-latest
     steps:
-      - name: Build image
+      - name: Build Image
         uses: blue-build/github-action@v1.13.0
         with:
           cosign_private_key: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && secrets.SIGNING_SECRET || '' }}

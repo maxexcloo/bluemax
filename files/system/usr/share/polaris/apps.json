@@ -2,10 +2,10 @@
     "version": 14,
     "apps": [
         {
+            "name": "Desktop",
             "allow-client-commands": false,
             "desktop-mirror": true,
             "image-path": "desktop.png",
-            "name": "Desktop",
             "state-cmd": [
                 {
                     "do": "/usr/bin/polaris-display-mode apply",
