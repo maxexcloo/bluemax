@@ -2,7 +2,7 @@
 
 bluemax is a personal [Bazzite Deck](https://bazzite.gg/) image for handheld
 gaming and remote access. It follows Bazzite's `stable` channel and adds
-Cloudflare Tunnel, KDE Partition Manager, Polaris, and a curated set of gaming
+Cloudflare Tunnel, KDE Partition Manager, Polaris, Reims, and a curated set of gaming
 Flatpaks. The complete image configuration is in
 [`recipes/recipe.yaml`](recipes/recipe.yaml).
 
@@ -53,29 +53,32 @@ The `latest` tag automatically points to the newest build. The image follows Baz
 
 Apache-2.0 - see [LICENSE](LICENSE).
 
+## macOS VMs
+
+Run `reims-ctl doctor` to check host readiness, then `reims-ctl` to create and
+manage VMs. Follow [Reims setup instructions](https://github.com/steelbrain/reims-vgpu#x86-64-guest-on-linux-kvm)
+for macOS installation. Update Reims through image updates.
+
 ## Streaming
 
 The image includes a Desktop-only Polaris app template and
 [`polaris-display-mode`](files/system/usr/bin/polaris-display-mode), which matches
 the client's resolution and refresh rate in KDE or Gamescope and restores the
-previous mode on disconnect. KDE uses Mandu's `DP-3` output; Gamescope uses its
+previous mode on disconnect. KDE currently targets `DP-3`; Gamescope uses its
 active display. Only modes advertised by the display are selected. Changing
 desktop sessions during a stream can prevent restoration until that desktop is
 available again.
 
-The [streaming EDID](files/system/usr/lib/firmware/edid/streaming.bin) preserves
-Mandu's original LG TV audio, HDR and VRR data, adding 14 sizes at 60 and 120 Hz,
-including MacBook, 3440×1440 and 5120×2160 modes. It is included in the image's
-initramfs using BlueBuild's [initramfs module](https://blue-build.org/reference/modules/initramfs/).
-Advertised modes do not guarantee physical-display or streaming performance.
-Edit the resolution list in [`generate.py`](files/edid/generate.py) and run
-`python3 files/edid/generate.py` on a system with `edid-decode` installed to
-regenerate it from the preserved original EDID.
+The optional [streaming EDID](files/system/usr/lib/firmware/edid/streaming.bin)
+adds display modes for compatible external displays. It is included in the
+image's initramfs. Edit [`generate.py`](files/edid/generate.py) and run
+`python3 files/edid/generate.py` with `edid-decode` installed to regenerate it.
 
-Enable the EDID on Mandu once, then reboot:
+To enable the override, replace `CONNECTOR` with your external display's DRM
+connector name, then reboot:
 
 ```bash
-sudo rpm-ostree kargs --append-if-missing=drm.edid_firmware=DP-3:edid/streaming.bin
+sudo rpm-ostree kargs --append-if-missing="drm.edid_firmware=CONNECTOR:edid/streaming.bin"
 ```
 
 ## Verification

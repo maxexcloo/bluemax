@@ -5,7 +5,19 @@ description: Max's Bazzite Image
 image-version: stable
 name: bluemax
 
+stages:
+  - name: reims
+    from: registry.fedoraproject.org/fedora:44
+    modules:
+      - type: script
+        scripts:
+          - build-reims.sh
+
 modules:
+  - type: copy
+    from: reims
+    src: /out/usr/
+    dest: /usr/
   - type: default-flatpaks
     configurations:
       - scope: system
@@ -24,6 +36,13 @@ modules:
         - cloudflared
         - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora%OS_VERSION%-x86_64.rpm
         - kde-partitionmanager
+        # Reims QEMU runtime dependencies.
+        - alsa-lib
+        - libfdt
+        - libslirp
+        - pixman
+        - pulseaudio-libs
+        - vulkan-loader
     remove:
       packages:
         - "*fcitx5*"
