@@ -5,7 +5,6 @@ updatecli = "0.122.1"
 description = "Validate Local Update Policies"
 run = "updatecli manifest validate --config .updatecli.d --disable-templating --strict"
 
-# Dependency Updates
 [tasks."dependencies:check"]
 description = "Preview Local Dependency Updates"
 run = """
