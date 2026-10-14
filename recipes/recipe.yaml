@@ -46,7 +46,6 @@ modules:
         - pixman
         - pulseaudio-libs
         - tigervnc
-        - unclutter-xfixes
         - vulkan-loader
     remove:
       packages:
