@@ -31,4 +31,4 @@ jobs:
           pr_event_number: ${{ github.event.number }}
           push: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
           recipe: recipe.yaml
-          registry_token: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.token || '' }}
+          registry_token: ${{ github.token }}
