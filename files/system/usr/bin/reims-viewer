@@ -6,18 +6,12 @@ host_audio="unix:${XDG_RUNTIME_DIR}/pulse/native"
 module=
 stream=
 sink=
-cursor_pid=
 cleanup() {
     [[ -z "$stream" ]] || pactl --server="$host_audio" move-sink-input "$stream" "$sink" || true
     [[ -z "$module" ]] || pactl --server="$host_audio" unload-module "$module" || true
-    [[ -z "$cursor_pid" ]] || kill "$cursor_pid" 2>/dev/null || true
 }
 trap cleanup EXIT
 trap "exit 0" INT TERM
-
-# macOS already draws its cursor in the QEMU framebuffer.
-/usr/bin/unclutter --start-hidden --timeout 0 &
-cursor_pid=$!
 
 # Route only this VM into Moonshine; restore its audio when the viewer closes.
 if [[ -n "${PULSE_SERVER:-}" ]]; then
