@@ -4,7 +4,7 @@ pipelineid: update-moonshine-release
 labels:
   group: packages
 sources:
-  package:
+  version:
     kind: githubrelease
     spec:
       owner: hgaiser
@@ -15,15 +15,6 @@ sources:
         pattern: "*"
     transformers:
       - trimprefix: v
-  version:
-    kind: githubrelease
-    spec:
-      owner: hgaiser
-      repository: moonshine
-      token: '{{ env "GITHUB_TOKEN" }}'
-      versionfilter:
-        kind: semver
-        pattern: "*"
 targets:
   download:
     kind: file
@@ -31,14 +22,14 @@ targets:
     spec:
       file: recipes/recipe.yaml
       matchpattern: (https://github.com/hgaiser/moonshine/releases/download/)v[0-9.]+
-      replacepattern: ${1}{{ source "version" }}
+      replacepattern: ${1}v{{ source "version" }}
   rpm:
     kind: file
-    sourceid: package
+    sourceid: version
     spec:
       file: recipes/recipe.yaml
       matchpattern: (/moonshine-)[0-9.]+(-1\.x86_64\.rpm)
-      replacepattern: ${1}{{ source "package" }}${2}
+      replacepattern: ${1}{{ source "version" }}${2}
 ---
 name: Update Polaris Release
 pipelineid: update-polaris-release

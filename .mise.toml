@@ -1,8 +1,9 @@
 [tools]
+# gh = "latest"
+# updatecli = "latest"
 updatecli = "0.122.1"
 
 # Dependency Updates
-
 [tasks."dependencies:check"]
 description = "Preview Local Dependency Updates"
 run = """
@@ -25,7 +26,6 @@ updatecli pipeline apply --config .updatecli.d --disable-changelog --disable-uda
 """
 
 # Development
-
 [tasks.check]
 description = "Validate Local Update Policies"
 run = "updatecli manifest validate --config .updatecli.d --disable-templating --strict"

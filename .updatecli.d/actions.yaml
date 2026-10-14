@@ -10,9 +10,6 @@ autodiscovery:
         github.com:
           kind: github
           token: '{{ env "GITHUB_TOKEN" }}'
-      only:
-        - actions:
-            blue-build/github-action: ""
       versionfilter:
         kind: semver
         pattern: "*"
