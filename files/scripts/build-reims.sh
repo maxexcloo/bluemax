@@ -9,7 +9,7 @@ dnf install -y \
   alsa-lib-devel binutils bison bzip2 ca-certificates clang cmake curl \
   dbus-devel flex gcc gcc-c++ git glib2-devel libX11-devel \
   libXScrnSaver-devel libXcursor-devel libXext-devel libXfixes-devel \
-  libXi-devel libXrandr-devel libXtst-devel libdecor-devel libdrm-devel \
+  libXi-devel libXrandr-devel libXtst-devel libdecor-devel libdrm-devel libepoxy-devel \
   libfdt-devel libglvnd-devel libslirp-devel libxkbcommon-devel lld make \
   mesa-libEGL-devel mesa-libGL-devel mesa-libgbm-devel ninja-build \
   pipewire-devel pixman-devel pkgconf-pkg-config pulseaudio-libs-devel \
@@ -21,6 +21,12 @@ git clone --depth 1 --revision "$reims_revision" \
 
 export CARGO_INSTALL_ROOT=/out/usr/lib/reims
 bash "$reims_source/scripts/install-ctl.sh" --yes
+
+# QEMU's D-Bus display needs its own OpenGL support alongside Reims's Vulkan renderer.
+for feature in DBUS_DISPLAY OPENGL; do
+  grep -Eq "^#define CONFIG_$feature([[:space:]]+1)?$" \
+    "$HOME/.cache/reims-ctl/qemu-build-linux-x86_64/config-host.h"
+done
 cp -a "$HOME/.local/share/reims-ctl/qemu/current/." "$CARGO_INSTALL_ROOT/qemu"
 
 mkdir -p /out/usr/share/licenses/reims

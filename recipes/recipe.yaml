@@ -41,6 +41,7 @@ modules:
         # Reims VM & console runtime dependencies.
         - alsa-lib
         - jq
+        - libepoxy
         - libfdt
         - libslirp
         - pixman
