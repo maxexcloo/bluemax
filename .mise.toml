@@ -1,9 +1,7 @@
 [tools]
 updatecli = "0.122.1"
 
-[tasks.check]
-description = "Validate Local Update Policies"
-run = "updatecli manifest validate --config .updatecli.d --disable-templating --strict"
+# Dependency Updates
 
 [tasks."dependencies:check"]
 description = "Preview Local Dependency Updates"
@@ -25,3 +23,9 @@ if [ -n "${usage_labels:-}" ]; then
 fi
 updatecli pipeline apply --config .updatecli.d --disable-changelog --disable-udash-report --unique-tmp-dir "$@"
 """
+
+# Development
+
+[tasks.check]
+description = "Validate Local Update Policies"
+run = "updatecli manifest validate --config .updatecli.d --disable-templating --strict"

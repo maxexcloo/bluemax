@@ -5,8 +5,8 @@ labels:
   group: tools
 targets:
   tools:
-    kind: shell
     disablesourceinput: true
+    kind: shell
     spec:
       command: |
         updates=$(mise outdated --bump --json --local) || exit "$?"

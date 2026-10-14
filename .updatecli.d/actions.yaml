@@ -5,16 +5,16 @@ autodiscovery:
   crawlers:
     github/action:
       digest: false
+      rootdir: .github
       credentials:
         github.com:
-          token: '{{ env "GITHUB_TOKEN" }}'
           kind: github
+          token: '{{ env "GITHUB_TOKEN" }}'
       only:
         - actions:
             blue-build/github-action: ""
       versionfilter:
         kind: semver
         pattern: "*"
-      rootdir: .github
 labels:
   group: actions
