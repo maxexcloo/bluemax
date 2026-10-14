@@ -13,9 +13,20 @@ stages:
         scripts:
           - build-reims.sh
 
+  - name: reims-viewer
+    from: registry.fedoraproject.org/fedora:44
+    modules:
+      - type: script
+        scripts:
+          - build-reims-viewer.sh
+
 modules:
   - type: copy
     from: reims
+    src: /out/usr/
+    dest: /usr/
+  - type: copy
+    from: reims-viewer
     src: /out/usr/
     dest: /usr/
   - type: default-flatpaks
@@ -40,13 +51,16 @@ modules:
         - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora%OS_VERSION%-x86_64.rpm
         # Reims VM & console runtime dependencies.
         - alsa-lib
-        - jq
+        - gstreamer1-plugins-base
+        - gstreamer1-plugins-good
+        - gtk4
         - libepoxy
         - libfdt
         - libslirp
+        - libusb1
         - pixman
         - pulseaudio-libs
-        - tigervnc
+        - usbredir
         - vulkan-loader
     remove:
       packages:
