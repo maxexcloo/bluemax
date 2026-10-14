@@ -36,16 +36,13 @@ modules:
         - cloudflared
         - kde-partitionmanager
         # Streaming servers.
-        - https://github.com/hgaiser/moonshine/releases/download/v0.16.1/moonshine-0.16.1-1.x86_64.rpm
         - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora%OS_VERSION%-x86_64.rpm
         # Reims VM & console runtime dependencies.
         - alsa-lib
-        - jq
         - libfdt
         - libslirp
         - pixman
         - pulseaudio-libs
-        - tigervnc
         - vulkan-loader
     remove:
       packages:
@@ -64,6 +61,12 @@ modules:
     repos:
       files:
         - https://pkg.cloudflare.com/cloudflared.repo
+  - type: script
+    snippets:
+      # The RPM ships the shared runtime library; its installer supplies this launcher.
+      - |
+        curl -fsSL https://raw.githubusercontent.com/papi-ux/polaris/v1.4.13/scripts/install/lib/polaris-gamescope-idle.sh -o /usr/bin/polaris-gamescope-idle
+        chmod 755 /usr/bin/polaris-gamescope-idle
   - type: files
     files:
       - destination: /

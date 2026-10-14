@@ -1,11 +1,18 @@
 [Unit]
 Description=Reims VM %i
-After=pipewire.service
-Wants=pipewire.service
+After=pipewire-pulse.service reims-compositor@%i.service
+Requires=reims-compositor@%i.service
 
 [Service]
 Type=forking
-ExecStart=/usr/bin/reims-ctl start %i
+Environment=PIPEWIRE_REMOTE=%t/pipewire-0
+Environment=PULSE_SERVER=unix:%t/pulse/native
+Environment=PULSE_SINK=reims-%i
+Environment=SDL_VIDEODRIVER=x11
+Environment=XDG_RUNTIME_DIR=%t
+EnvironmentFile=-%t/reims-%i/polaris-gamescope.env
+ExecStartPre=/usr/bin/test -s %t/reims-%i/polaris-gamescope.env
+ExecStart=/usr/bin/env -u GAMESCOPE_WAYLAND_DISPLAY -u WAYLAND_DISPLAY /usr/bin/reims-ctl start %i
 ExecStop=/usr/bin/reims-ctl stop %i
 PIDFile=%h/.local/share/reims-ctl/vms/%i/qemu.pid
 Restart=on-failure

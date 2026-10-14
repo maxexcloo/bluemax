@@ -1,0 +1,25 @@
+[Unit]
+Description=Private Compositor For Reims %i
+After=pipewire-pulse.service reims-policy@%i.service
+Requires=reims-policy@%i.service
+Wants=pipewire-pulse.service
+
+[Service]
+Environment=PIPEWIRE_REMOTE=pipewire-0
+Environment=POLARIS_GAMESCOPE_COMPOSITE_CURSOR=0
+Environment=POLARIS_GAMESCOPE_RUNTIME_LIB=/usr/bin/polaris-gamescope-runtime-lib.sh
+Environment=POLARIS_HDR_HEIGHT=1080
+Environment=POLARIS_HDR_REFRESH=60
+Environment=POLARIS_HDR_WIDTH=1920
+Environment=PULSE_SERVER=unix:%t/pulse/native
+Environment=XDG_RUNTIME_DIR=%t/reims-%i
+EnvironmentFile=-%h/.config/reims-ctl/stream-%i.env
+ExecStartPre=/usr/bin/rm -f %t/reims-%i/polaris-gamescope.env
+ExecStartPre=/usr/bin/bash -c 'pactl load-module module-null-sink channels=2 rate=48000 sink_name=reims-%i > "%t/reims-%i/audio-module"'
+ExecStart=/usr/bin/env -u DISPLAY -u WAYLAND_DISPLAY /usr/bin/polaris-gamescope-idle
+ExecStartPost=/usr/bin/bash -c 'for ((attempt=0; attempt<150; attempt++)); do [[ -s "%t/reims-%i/polaris-gamescope.env" ]] && exit 0; sleep 0.2; done; exit 1'
+ExecStopPost=/usr/bin/bash -c 'if [[ -s "%t/reims-%i/audio-module" ]]; then pactl unload-module "$(cat "%t/reims-%i/audio-module")"; rm -f "%t/reims-%i/audio-module"; fi'
+# Keep gamescope's process identity readable for Polaris ownership checks.
+NoNewPrivileges=true
+Restart=on-failure
+RestartSec=5

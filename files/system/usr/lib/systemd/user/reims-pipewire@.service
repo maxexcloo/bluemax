@@ -1,0 +1,10 @@
+[Unit]
+Description=Private Capture Graph For Reims %i
+
+[Service]
+Environment=PIPEWIRE_RUNTIME_DIR=%t/reims-%i
+ExecStart=/usr/bin/pipewire
+Restart=on-failure
+RestartSec=5
+RuntimeDirectory=reims-%i
+RuntimeDirectoryMode=0700

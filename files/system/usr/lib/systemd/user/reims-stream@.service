@@ -1,0 +1,20 @@
+[Unit]
+Description=Dedicated Stream For Reims %i
+After=reims@%i.service
+Requires=reims@%i.service
+
+[Service]
+Environment=GAMESCOPE_WAYLAND_DISPLAY=gamescope-0
+Environment=PIPEWIRE_REMOTE=pipewire-0
+Environment=POLARIS_STREAM_SINK=0
+Environment=PULSE_SERVER=unix:%t/pulse/native
+Environment=XDG_CONFIG_HOME=%h/.config/reims-stream/%i
+Environment=XDG_DATA_HOME=%h/.local/share/reims-stream/%i
+Environment=XDG_RUNTIME_DIR=%t/reims-%i
+EnvironmentFile=-%h/.config/reims-ctl/stream-%i.env
+ExecStart=/usr/bin/env -u DISPLAY -u WAYLAND_DISPLAY /usr/bin/polaris %h/.config/reims-stream/%i/polaris/polaris.conf
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
