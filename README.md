@@ -59,6 +59,29 @@ Run `reims-ctl doctor` to check host readiness, then `reims-ctl` to create and
 manage VMs. Follow [Reims setup instructions](https://github.com/steelbrain/reims-vgpu#x86-64-guest-on-linux-kvm)
 for macOS installation. Update Reims through image updates.
 
+For an installed VM named `mac`, stop it before enabling its private console
+and boot service:
+
+```bash
+reims-ctl stop mac
+reims-ctl set --env REIMS_VGPU_WINDOW=0 --extra-args '-global ICH9-LPC.disable_s3=1 -global ICH9-LPC.disable_s4=1 -vnc 127.0.0.1:1' mac
+systemctl --user enable --now reims@mac.service
+loginctl enable-linger
+```
+
+Disabling S3/S4 keeps macOS from suspending the VM. Copy
+[`reims.toml`](files/system/usr/share/moonshine/reims.toml) to
+`~/.config/moonshine/config.toml`, set its private listening address, then enable
+`moonshine.service` with `systemctl --user enable --now moonshine.service`.
+Moonshine appears as a separate macOS host in Moonlight; disconnecting closes
+the viewer while the VM keeps running. Polaris remains available for games.
+
+On hosts with multiple GPUs, set `compositor.gpu` in Moonshine's configuration
+and `MESA_VK_DEVICE_SELECT` in `~/.config/moonshine/environment` to select the
+same GPU for rendering and encoding. Check the selected device in
+`journalctl --user -u moonshine.service`. Add this host to Moonlight using its
+configured HTTP port.
+
 ## Streaming
 
 The image includes a Desktop-only Polaris app template and

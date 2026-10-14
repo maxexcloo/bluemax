@@ -34,14 +34,19 @@ modules:
     install:
       packages:
         - cloudflared
-        - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora%OS_VERSION%-x86_64.rpm
         - kde-partitionmanager
-        # Reims QEMU runtime dependencies.
+        # Streaming servers.
+        - https://github.com/hgaiser/moonshine/releases/download/v0.16.1/moonshine-0.16.1-1.x86_64.rpm
+        - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora%OS_VERSION%-x86_64.rpm
+        # Reims VM & console runtime dependencies.
         - alsa-lib
+        - jq
         - libfdt
         - libslirp
         - pixman
         - pulseaudio-libs
+        - tigervnc
+        - unclutter-xfixes
         - vulkan-loader
     remove:
       packages:

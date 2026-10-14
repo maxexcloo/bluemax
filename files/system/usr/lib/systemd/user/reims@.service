@@ -1,0 +1,16 @@
+[Unit]
+Description=Reims VM %i
+After=pipewire.service
+Wants=pipewire.service
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/reims-ctl start %i
+ExecStop=/usr/bin/reims-ctl stop %i
+PIDFile=%h/.local/share/reims-ctl/vms/%i/qemu.pid
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=210
+
+[Install]
+WantedBy=default.target
