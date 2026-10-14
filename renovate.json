@@ -5,7 +5,28 @@
   "customManagers": [
     {
       "customType": "regex",
+      "datasourceTemplate": "docker",
+      "description": "Update Fedora build stage",
+      "managerFilePatterns": ["/^recipes/.*\\.yaml$/"],
+      "matchStrings": [
+        "from: (?<depName>registry\\.fedoraproject\\.org/fedora):(?<currentValue>[0-9]+)"
+      ],
+      "versioningTemplate": "docker"
+    },
+    {
+      "currentValueTemplate": "master",
+      "customType": "regex",
+      "datasourceTemplate": "git-refs",
+      "depNameTemplate": "steelbrain/reims-vgpu",
+      "description": "Update Reims source revision",
+      "managerFilePatterns": ["/^files/scripts/build-reims\\.sh$/"],
+      "matchStrings": ["reims_revision=(?<currentDigest>[a-f0-9]{40})"],
+      "packageNameTemplate": "https://github.com/steelbrain/reims-vgpu"
+    },
+    {
+      "customType": "regex",
       "datasourceTemplate": "github-releases",
+      "description": "Update recipe release downloads",
       "managerFilePatterns": ["/^recipes/.*\\.yaml$/"],
       "matchStrings": [
         "https://github\\.com/(?<depName>[^/]+/[^/]+)/releases/download/(?<currentValue>[^/]+)/"
