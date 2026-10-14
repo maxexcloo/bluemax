@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ $# -ne 1 || -z "$1" ]]; then
+    echo 'Usage: reims-viewer <VM name>' >&2
+    exit 2
+fi
+
 exec env GDK_BACKEND=wayland GSK_RENDERER=gl RUST_LOG=error \
-    /usr/bin/qemu-rdw "${1:-mac}"
+    /usr/bin/qemu-rdw "$1"

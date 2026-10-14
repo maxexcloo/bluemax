@@ -23,10 +23,11 @@ cat > "$viewer_source/qemu-rdw/src/main.ui" <<'UI'
   <object class="GtkApplicationWindow" id="window">
     <property name="decorated">false</property>
     <property name="fullscreened">true</property>
-    <property name="title">macOS</property>
   </object>
 </interface>
 UI
+sed -i '/window.set_application(Some(app));/a\            window.set_title(opt.borrow().vm_name.as_deref());' \
+  "$viewer_source/qemu-rdw/src/main.rs"
 
 export CARGO_BUILD_JOBS=3
 export CARGO_PROFILE_RELEASE_DEBUG=0

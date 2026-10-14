@@ -76,7 +76,9 @@ host awake while the VM runs. Copy
 `moonshine.service` with `systemctl --user enable --now moonshine.service`.
 Moonshine appears as a separate macOS host in Moonlight. The fullscreen native
 QEMU viewer attaches to the running VM over D-Bus, including its audio;
-disconnecting closes the viewer while the VM keeps running. Polaris remains
+disconnecting closes the viewer while the VM keeps running. `reims-viewer`
+requires the VM name, which also becomes its window title; the Moonshine tile
+label is configured separately. Polaris remains
 available for games, including during a local Gamescope session.
 
 On hosts with multiple GPUs, set `compositor.gpu` in Moonshine's configuration
