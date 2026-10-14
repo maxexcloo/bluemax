@@ -7,14 +7,14 @@ name: bluemax
 
 stages:
   - name: reims
-    from: registry.fedoraproject.org/fedora:44
+    from: registry.fedoraproject.org/fedora:46
     modules:
       - type: script
         scripts:
           - build-reims.sh
 
   - name: reims-viewer
-    from: registry.fedoraproject.org/fedora:44
+    from: registry.fedoraproject.org/fedora:46
     modules:
       - type: script
         scripts:
