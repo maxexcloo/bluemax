@@ -64,21 +64,26 @@ and boot service:
 
 ```bash
 reims-ctl stop mac
-reims-ctl set --env REIMS_VGPU_WINDOW=0 --extra-args '-global ICH9-LPC.disable_s3=1 -global ICH9-LPC.disable_s4=1 -vnc 127.0.0.1:1' mac
+reims-ctl set --audio-backend dbus --env REIMS_VGPU_WINDOW=0 --extra-args '-global ICH9-LPC.disable_s3=1 -global ICH9-LPC.disable_s4=1 -display dbus,gl=off' mac
 systemctl --user enable --now reims@mac.service
 loginctl enable-linger
 ```
 
-Disabling S3/S4 keeps macOS from suspending the VM. Copy
+Disabling S3/S4 keeps macOS from suspending the VM. Its service also keeps the
+host awake while the VM runs. Copy
 [`reims.toml`](files/system/usr/share/moonshine/reims.toml) to
 `~/.config/moonshine/config.toml`, set its private listening address, then enable
 `moonshine.service` with `systemctl --user enable --now moonshine.service`.
-Moonshine appears as a separate macOS host in Moonlight; disconnecting closes
-the viewer while the VM keeps running. Polaris remains available for games.
+Moonshine appears as a separate macOS host in Moonlight. The fullscreen native
+QEMU viewer attaches to the running VM over D-Bus, including its audio;
+disconnecting closes the viewer while the VM keeps running. Polaris remains
+available for games, including during a local Gamescope session.
 
 On hosts with multiple GPUs, set `compositor.gpu` in Moonshine's configuration
 and `MESA_VK_DEVICE_SELECT` in `~/.config/moonshine/environment` to select the
-same GPU for rendering and encoding. Check the selected device in
+same GPU for rendering and encoding. Reims still copies guest frames into this
+display path; `gl=off` does not disable guest GPU acceleration. Check the selected
+device in
 `journalctl --user -u moonshine.service`. Add this host to Moonlight using its
 configured HTTP port.
 

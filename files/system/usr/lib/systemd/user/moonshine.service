@@ -3,9 +3,10 @@ Description=Headless Moonlight streaming server
 After=network-online.target
 
 [Service]
-ExecStart=/usr/bin/moonshine %h/.config/moonshine/config.toml
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=%t/bus
 Environment=MOONSHINE_LOG=moonshine=info,moonshine_core=info,pixelforge=info
 EnvironmentFile=-%h/.config/moonshine/environment
+ExecStart=/usr/bin/moonshine %h/.config/moonshine/config.toml
 Restart=on-failure
 RestartSec=5
 
