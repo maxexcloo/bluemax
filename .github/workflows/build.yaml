@@ -6,8 +6,6 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - "**.md"
   schedule:
     - cron: "00 06 * * *"
 
@@ -16,15 +14,41 @@ permissions:
   packages: write
 
 concurrency:
-  cancel-in-progress: true
   group: ${{ github.workflow }}-${{ github.ref }}
+  queue: max
 
 jobs:
   bluebuild:
     name: Build Custom Image
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check Image Changes
+        id: changes
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          build=true
+          if [[ "$GITHUB_EVENT_NAME" =~ ^(pull_request|push)$ ]] && [ -n "$BASE_SHA" ] && git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            git diff --name-only --no-renames -z "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
+            if [ -s "$RUNNER_TEMP/changed-files" ]; then
+              build=false
+              while IFS= read -r -d '' path; do
+                case "$path" in
+                  AGENTS.md|README.md|docs/*|.mise.toml|.updatecli.d/*) ;;
+                  *) build=true; break ;;
+                esac
+              done < "$RUNNER_TEMP/changed-files"
+            fi
+          fi
+          echo "build=$build" >> "$GITHUB_OUTPUT"
       - name: Build Image
+        if: steps.changes.outputs.build == 'true'
         uses: blue-build/github-action@v1.13.0
         with:
           cosign_private_key: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && secrets.SIGNING_SECRET || '' }}
@@ -32,3 +56,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
           recipe: recipe.yaml
           registry_token: ${{ github.token }}
+          skip_checkout: "true"
