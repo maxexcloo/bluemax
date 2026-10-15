@@ -19,7 +19,8 @@ The GitHub workflow builds pull requests without publishing or signing them.
 Documentation and local tooling changes skip image building while still reporting
 the required check. Image inputs and workflow changes build normally. Image changes
 on `main`, daily scheduled builds and manual runs on `main` publish the signed
-image using the repository's `SIGNING_SECRET`.
+image using the repository's `SIGNING_SECRET`. Runs queue so documentation changes
+cannot cancel an image publication.
 
 ## Installation
 
