@@ -1,8 +1,0 @@
-[tools]
-# gh = "latest"
-# updatecli = "latest"
-
-# Development
-[tasks.check]
-description = "Validate Local Update Policies"
-run = "updatecli manifest validate --config .updatecli.d --disable-templating --strict"
