@@ -16,8 +16,10 @@ bluebuild build recipes/recipe.yaml
 ```
 
 The GitHub workflow builds pull requests without publishing or signing them.
-Pushes to `main`, daily scheduled builds, and manual runs on `main` publish the
-signed image using the repository's `SIGNING_SECRET`.
+Documentation and local tooling changes skip image building while still reporting
+the required check. Image inputs and workflow changes build normally. Image changes
+on `main`, daily scheduled builds and manual runs on `main` publish the signed
+image using the repository's `SIGNING_SECRET`.
 
 ## Installation
 
