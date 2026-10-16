@@ -1,17 +1,10 @@
 # yaml-language-server: $schema=https://www.updatecli.io/schema/latest/policy/manifest/config.json
-name: Update Versioned Actions
-pipelineid: update-versioned-actions
+name: Update Actions
+pipelineid: update-actions
 autodiscovery:
   crawlers:
     github/action:
       digest: false
       rootdir: .github
-      credentials:
-        github.com:
-          kind: github
-          token: '{{ env "GITHUB_TOKEN" }}'
-      versionfilter:
-        kind: semver
-        pattern: "*"
 labels:
   group: actions
