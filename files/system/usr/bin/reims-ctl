@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-# Upstream's supported override keeps the bundled QEMU separate from system QEMU.
-export REIMS_CTL_QEMU="${REIMS_CTL_QEMU:-/usr/lib/reims/qemu/bin/qemu-system-x86_64}"
-exec /usr/lib/reims/bin/reims-ctl "$@"

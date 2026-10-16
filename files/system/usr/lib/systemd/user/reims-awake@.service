@@ -1,9 +1,0 @@
-[Unit]
-Description=Keep Host Awake For Reims %i
-After=reims@%i.service
-BindsTo=reims@%i.service
-
-[Service]
-ExecStart=/usr/bin/systemd-inhibit --mode=block --what=sleep --who=Reims --why="Keep VM %i running" /usr/bin/sleep infinity
-Restart=on-failure
-RestartSec=5
