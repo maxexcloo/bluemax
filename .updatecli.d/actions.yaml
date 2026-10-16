@@ -6,5 +6,28 @@ autodiscovery:
     github/action:
       digest: false
       rootdir: .github
+      ignore:
+        - actions:
+            blue-build/github-action: ""
+      versionfilter:
+        kind: regex/semver
+        pattern: "*"
+        regex: ^v?([0-9]+)$
+labels:
+  group: actions
+---
+name: Update Versioned Actions
+pipelineid: update-versioned-actions
+autodiscovery:
+  crawlers:
+    github/action:
+      digest: false
+      rootdir: .github
+      only:
+        - actions:
+            blue-build/github-action: ""
+      versionfilter:
+        kind: semver
+        pattern: "*"
 labels:
   group: actions
