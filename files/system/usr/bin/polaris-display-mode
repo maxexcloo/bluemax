@@ -34,7 +34,7 @@ def keep_display(message):
     sys.exit(0)
 
 
-def apply(text):
+def write_gamescope_modes(text):
     temporary = mode_file.with_suffix(".polaris-tmp")
     temporary.write_text(text)
     temporary.replace(mode_file)
@@ -102,7 +102,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         sys.exit(0)
     if sys.argv[1] == "restore":
         if state.exists():
-            apply(state.read_text())
+            write_gamescope_modes(state.read_text())
             state.unlink()
         sys.exit(0)
     if not mode_file.exists():
@@ -138,5 +138,5 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
     if not state.exists():
         state.write_text(original)
     replacement = f"{prefix}{width}x{height}@{rate} {suffix}"
-    apply(original.replace(line, replacement, 1))
+    write_gamescope_modes(original.replace(line, replacement, 1))
     print(f"Host display: {width}x{height}@{rate}; stream: {fps:g} FPS", flush=True)
