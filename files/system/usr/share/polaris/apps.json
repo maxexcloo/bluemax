@@ -1,21 +1,21 @@
 {
-    "version": 14,
-    "apps": [
+  "version": 14,
+  "apps": [
+    {
+      "name": "Desktop",
+      "allow-client-commands": false,
+      "desktop-mirror": true,
+      "image-path": "desktop.png",
+      "state-cmd": [
         {
-            "name": "Desktop",
-            "allow-client-commands": false,
-            "desktop-mirror": true,
-            "image-path": "desktop.png",
-            "state-cmd": [
-                {
-                    "do": "/usr/bin/polaris-display-mode apply",
-                    "elevated": false,
-                    "undo": "/usr/bin/polaris-display-mode restore"
-                }
-            ]
+          "do": "/usr/bin/polaris-display-mode apply",
+          "elevated": false,
+          "undo": "/usr/bin/polaris-display-mode restore"
         }
-    ],
-    "env": {
-        "PATH": "$(PATH):$(HOME)/.local/bin"
+      ]
     }
+  ],
+  "env": {
+    "PATH": "$(PATH):$(HOME)/.local/bin"
+  }
 }
