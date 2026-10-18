@@ -1,5 +1,3 @@
-.ruff_cache/
 /Containerfile
-__pycache__/
 cosign.key
 cosign.private
