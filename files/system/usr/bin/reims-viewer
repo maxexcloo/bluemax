@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-exec env GDK_BACKEND=wayland GSK_RENDERER=gl RUST_LOG=error \
-    /usr/bin/qemu-rdw "${1:-mac}"

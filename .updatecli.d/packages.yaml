@@ -1,36 +1,4 @@
 # yaml-language-server: $schema=https://www.updatecli.io/schema/latest/policy/manifest/config.json
-name: Update Moonshine Release
-pipelineid: update-moonshine-release
-labels:
-  group: packages
-sources:
-  version:
-    kind: githubrelease
-    spec:
-      owner: hgaiser
-      repository: moonshine
-      token: '{{ env "GITHUB_TOKEN" }}'
-      versionfilter:
-        kind: semver
-        pattern: "*"
-    transformers:
-      - trimprefix: v
-targets:
-  download:
-    kind: file
-    sourceid: version
-    spec:
-      file: recipes/recipe.yaml
-      matchpattern: (https://github.com/hgaiser/moonshine/releases/download/)v[0-9.]+
-      replacepattern: ${1}v{{ source "version" }}
-  rpm:
-    kind: file
-    sourceid: version
-    spec:
-      file: recipes/recipe.yaml
-      matchpattern: (/moonshine-)[0-9.]+(-1\.x86_64\.rpm)
-      replacepattern: ${1}{{ source "version" }}${2}
----
 name: Update Polaris Release
 pipelineid: update-polaris-release
 labels:
