@@ -43,7 +43,7 @@ jobs:
               build=false
               while IFS= read -r -d '' path; do
                 case "$path" in
-                  AGENTS.md|README.md|docs/*|.mise.toml|.updatecli.d/*) ;;
+                  .gitignore|.updatecli.d/*|AGENTS.md|LICENSE|README.md|files/edid/*) ;;
                   *) build=true; break ;;
                 esac
               done < "$RUNNER_TEMP/changed-files"
