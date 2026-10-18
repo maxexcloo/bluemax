@@ -105,8 +105,8 @@ base[126] = 2 + len(blocks)
 base[12:16] = bytes(4)
 base[24] |= 4
 assert base[90:95] == bytes([0, 0, 0, 0xFD, 0])
-base[97] = 15
-base[99] = 143
+base[97] = 15  # Range limits: minimum horizontal rate, kHz
+base[99] = 143  # Range limits: maximum pixel clock, 10 MHz units
 base[127] = 0
 base[127] = (-sum(base)) & 255
 result = bytes(base) + bytes(block_map) + source[128:] + b"".join(blocks)

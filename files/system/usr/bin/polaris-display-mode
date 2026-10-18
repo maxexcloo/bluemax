@@ -22,7 +22,19 @@ def run(*args):
     return subprocess.check_output(args, env=env, text=True, timeout=5)
 
 
-def apply(text):
+def rate_preference(rate, fps):
+    # Prefer the nearest rate at or above the stream FPS, allowing for 59.94 Hz
+    # style rates, then fall back to the nearest lower rate.
+    return rate < fps - 0.5, abs(rate - fps)
+
+
+def keep_display(message):
+    # Polaris aborts the stream when preparation fails, so skip without failing.
+    print(message, file=sys.stderr, flush=True)
+    sys.exit(0)
+
+
+def write_gamescope_modes(text):
     temporary = mode_file.with_suffix(".polaris-tmp")
     temporary.write_text(text)
     temporary.replace(mode_file)
@@ -65,7 +77,9 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
             (o for o in outputs if o["name"] == "DP-3" and o["enabled"]), None
         )
         if output is None:
-            sys.exit("KDE output DP-3 is unavailable; leaving the display unchanged")
+            keep_display(
+                "KDE output DP-3 is unavailable; leaving the display unchanged"
+            )
         width = int(os.environ["POLARIS_CLIENT_WIDTH"])
         height = int(os.environ["POLARIS_CLIENT_HEIGHT"])
         fps = float(os.environ["POLARIS_CLIENT_FPS"])
@@ -75,10 +89,10 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
             if m["size"] == {"height": height, "width": width}
         ]
         if not modes:
-            sys.exit(
+            keep_display(
                 f"Unsupported KDE size {width}x{height}; leaving the display unchanged"
             )
-        mode = min(modes, key=lambda m: abs(m["refreshRate"] - fps))
+        mode = min(modes, key=lambda m: rate_preference(m["refreshRate"], fps))
         if not kde_state.exists():
             kde_state.write_text(
                 json.dumps({"mode": output["currentModeId"], "output": output["name"]})
@@ -88,7 +102,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         sys.exit(0)
     if sys.argv[1] == "restore":
         if state.exists():
-            apply(state.read_text())
+            write_gamescope_modes(state.read_text())
             state.unlink()
         sys.exit(0)
     if not mode_file.exists():
@@ -107,7 +121,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         (line for line in original.splitlines() if line.startswith(prefix)), None
     )
     if line is None:
-        sys.exit("No saved Gamescope mode; leaving the display unchanged")
+        keep_display("No saved Gamescope mode; leaving the display unchanged")
     width = int(os.environ["POLARIS_CLIENT_WIDTH"])
     height = int(os.environ["POLARIS_CLIENT_HEIGHT"])
     fps = float(os.environ["POLARIS_CLIENT_FPS"])
@@ -118,14 +132,11 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         if (int(w), int(h)) == (width, height)
     ]
     if not rates:
-        print(
-            f"Unsupported host size {width}x{height}; keeping the host mode", flush=True
-        )
-        sys.exit(0)
-    rate = min(rates, key=lambda rate: (rate < fps, abs(rate - fps)))
+        keep_display(f"Unsupported host size {width}x{height}; keeping the host mode")
+    rate = min(rates, key=lambda rate: rate_preference(rate, fps))
     suffix = line.split(" ")[-1] if re.search(r" \d+$", line) else "0"
     if not state.exists():
         state.write_text(original)
     replacement = f"{prefix}{width}x{height}@{rate} {suffix}"
-    apply(original.replace(line, replacement, 1))
+    write_gamescope_modes(original.replace(line, replacement, 1))
     print(f"Host display: {width}x{height}@{rate}; stream: {fps:g} FPS", flush=True)
