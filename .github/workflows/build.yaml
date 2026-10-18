@@ -35,6 +35,9 @@ jobs:
         run: |
           build=true
           if [[ "$GITHUB_EVENT_NAME" =~ ^(pull_request|push)$ ]] && [ -n "$BASE_SHA" ] && git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then
+            if [ "$GITHUB_EVENT_NAME" = pull_request ]; then
+              BASE_SHA=$(git merge-base "$BASE_SHA" "$HEAD_SHA")
+            fi
             git diff --name-only --no-renames -z "$BASE_SHA" "$HEAD_SHA" > "$RUNNER_TEMP/changed-files"
             if [ -s "$RUNNER_TEMP/changed-files" ]; then
               build=false
