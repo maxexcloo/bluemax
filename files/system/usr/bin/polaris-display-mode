@@ -22,6 +22,12 @@ def run(*args):
     return subprocess.check_output(args, env=env, text=True, timeout=5)
 
 
+def rate_preference(rate, fps):
+    # Prefer the nearest rate at or above the stream FPS, allowing for 59.94 Hz
+    # style rates, then fall back to the nearest lower rate.
+    return rate < fps - 0.5, abs(rate - fps)
+
+
 def keep_display(message):
     # Polaris aborts the stream when preparation fails, so skip without failing.
     print(message, file=sys.stderr, flush=True)
@@ -86,7 +92,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
             keep_display(
                 f"Unsupported KDE size {width}x{height}; leaving the display unchanged"
             )
-        mode = min(modes, key=lambda m: abs(m["refreshRate"] - fps))
+        mode = min(modes, key=lambda m: rate_preference(m["refreshRate"], fps))
         if not kde_state.exists():
             kde_state.write_text(
                 json.dumps({"mode": output["currentModeId"], "output": output["name"]})
@@ -127,7 +133,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
     ]
     if not rates:
         keep_display(f"Unsupported host size {width}x{height}; keeping the host mode")
-    rate = min(rates, key=lambda rate: (rate < fps, abs(rate - fps)))
+    rate = min(rates, key=lambda rate: rate_preference(rate, fps))
     suffix = line.split(" ")[-1] if re.search(r" \d+$", line) else "0"
     if not state.exists():
         state.write_text(original)
