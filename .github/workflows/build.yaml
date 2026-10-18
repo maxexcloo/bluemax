@@ -52,7 +52,7 @@ jobs:
           echo "build=$build" >> "$GITHUB_OUTPUT"
       - name: Build Image
         if: steps.changes.outputs.build == 'true'
-        uses: blue-build/github-action@v1.13.0
+        uses: blue-build/github-action@v1
         with:
           cosign_private_key: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && secrets.SIGNING_SECRET || '' }}
           pr_event_number: ${{ github.event.number }}
