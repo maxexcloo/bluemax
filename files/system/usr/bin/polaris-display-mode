@@ -102,7 +102,14 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         sys.exit(0)
     if sys.argv[1] == "restore":
         if state.exists():
-            write_gamescope_modes(state.read_text())
+            saved = state.read_text()
+            prefix = saved.rsplit(":", 1)[0] + ":"
+            current = mode_file.read_text()
+            line = next(
+                (line for line in current.splitlines() if line.startswith(prefix)), None
+            )
+            if line is not None:
+                write_gamescope_modes(current.replace(line, saved, 1))
             state.unlink()
         sys.exit(0)
     if not mode_file.exists():
@@ -136,7 +143,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
     rate = min(rates, key=lambda rate: rate_preference(rate, fps))
     suffix = line.split(" ")[-1] if re.search(r" \d+$", line) else "0"
     if not state.exists():
-        state.write_text(original)
+        state.write_text(line)
     replacement = f"{prefix}{width}x{height}@{rate} {suffix}"
     write_gamescope_modes(original.replace(line, replacement, 1))
     print(f"Host display: {width}x{height}@{rate}; stream: {fps:g} FPS", flush=True)
