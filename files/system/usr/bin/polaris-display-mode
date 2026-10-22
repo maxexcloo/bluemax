@@ -16,6 +16,10 @@ runtime = Path(os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}"))
 state = runtime / "polaris-display-mode.saved"
 mode_file = Path.home() / ".config/gamescope/modes.cfg"
 env = dict(os.environ, DISPLAY=":0")
+if sys.argv[1] == "apply":
+    width = int(os.environ["POLARIS_CLIENT_WIDTH"])
+    height = int(os.environ["POLARIS_CLIENT_HEIGHT"])
+    fps = float(os.environ["POLARIS_CLIENT_FPS"])
 
 
 def run(*args):
@@ -26,6 +30,10 @@ def rate_preference(rate, fps):
     # Prefer the nearest rate at or above the stream FPS, allowing for 59.94 Hz
     # style rates, then fall back to the nearest lower rate.
     return rate < fps - 0.5, abs(rate - fps)
+
+
+def mode_line(text, prefix):
+    return next((line for line in text.splitlines() if line.startswith(prefix)), None)
 
 
 def keep_display(message):
@@ -80,9 +88,6 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
             keep_display(
                 "KDE output DP-3 is unavailable; leaving the display unchanged"
             )
-        width = int(os.environ["POLARIS_CLIENT_WIDTH"])
-        height = int(os.environ["POLARIS_CLIENT_HEIGHT"])
-        fps = float(os.environ["POLARIS_CLIENT_FPS"])
         modes = [
             m
             for m in output["modes"]
@@ -105,9 +110,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
             saved = state.read_text()
             prefix = saved.rsplit(":", 1)[0] + ":"
             current = mode_file.read_text()
-            line = next(
-                (line for line in current.splitlines() if line.startswith(prefix)), None
-            )
+            line = mode_line(current, prefix)
             if line is not None:
                 write_gamescope_modes(current.replace(line, saved, 1))
             state.unlink()
@@ -124,14 +127,9 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         sys.exit(0)
     prefix = f"{make[1]} {model[1]}:"
     original = mode_file.read_text()
-    line = next(
-        (line for line in original.splitlines() if line.startswith(prefix)), None
-    )
+    line = mode_line(original, prefix)
     if line is None:
         keep_display("No saved Gamescope mode; leaving the display unchanged")
-    width = int(os.environ["POLARIS_CLIENT_WIDTH"])
-    height = int(os.environ["POLARIS_CLIENT_HEIGHT"])
-    fps = float(os.environ["POLARIS_CLIENT_FPS"])
     modes = run("xprop", "-root", "GAMESCOPE_DISPLAY_MODE_LIST_EXTERNAL")
     rates = [
         int(rate)
