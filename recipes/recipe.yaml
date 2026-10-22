@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 base-image: ghcr.io/ublue-os/bazzite-deck
-description: Max's Bazzite Image
+description: Custom Bazzite Deck image for handheld gaming and remote access.
 image-version: stable
 name: bluemax
 
@@ -58,12 +58,4 @@ modules:
           desktop-file-edit --set-key=NoDisplay --set-value=true "$desktop_entry"
         done
   - type: initramfs
-  - type: script
-    snippets:
-      - |
-        set -o pipefail
-        for initramfs_image in /usr/lib/modules/*/initramfs.img; do
-          lsinitrd --file usr/lib/firmware/edid/streaming.bin "$initramfs_image" |
-            cmp /usr/lib/firmware/edid/streaming.bin -
-        done
   - type: signing
