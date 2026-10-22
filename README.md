@@ -15,13 +15,6 @@ supported container engine installed, build locally without publishing:
 bluebuild build recipes/recipe.yaml
 ```
 
-The GitHub workflow builds pull requests without publishing or signing them.
-Documentation and local tooling changes skip the image build but still report the
-required check. Changes to image inputs or the workflow build normally. Image
-changes on `main`, the daily scheduled build and manual runs on `main` publish
-the image, signed with the repository's `SIGNING_SECRET`. Runs queue, so a
-documentation change can't cancel an image publication.
-
 ## Installation
 
 To rebase an existing atomic Fedora installation to the latest build:
@@ -54,10 +47,6 @@ The `latest` tag always points to the newest build. The image follows Bazzite
 Deck's upstream `stable` channel, including Fedora major version upgrades once
 Bazzite promotes them.
 
-## Licence
-
-Apache-2.0 - see [LICENSE](LICENSE).
-
 ## Streaming
 
 The image includes a Desktop-only Polaris app template and
@@ -87,3 +76,7 @@ Images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://
 ```bash
 cosign verify --key cosign.pub ghcr.io/maxexcloo/bluemax
 ```
+
+## Licence
+
+Apache-2.0 - see [LICENSE](LICENSE).
