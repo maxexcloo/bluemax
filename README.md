@@ -79,4 +79,4 @@ cosign verify --key cosign.pub ghcr.io/maxexcloo/bluemax
 
 ## Licence
 
-Apache-2.0 - see [LICENSE](LICENSE).
+AGPL-3.0 - see [LICENSE](LICENSE).
