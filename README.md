@@ -2,8 +2,8 @@
 
 bluemax is my personal [Bazzite Deck](https://bazzite.gg/) image for handheld
 gaming and remote access. It follows Bazzite's `stable` channel and adds
-Cloudflare Tunnel, KDE Partition Manager, Polaris and a set of gaming Flatpaks
-I've picked. The full image configuration is in
+Cloudflare Tunnel, Docker, KDE Partition Manager, Polaris and a set of gaming
+Flatpaks I've picked. The full image configuration is in
 [`recipes/recipe.yaml`](recipes/recipe.yaml).
 
 ## Building

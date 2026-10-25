@@ -25,6 +25,7 @@ modules:
         # renovate: datasource=github-releases depName=papi-ux/polaris
         - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora%OS_VERSION%-x86_64.rpm
         - kde-partitionmanager
+        - moby-engine
     remove:
       packages:
         - "*fcitx5*"
@@ -46,6 +47,10 @@ modules:
     files:
       - destination: /
         source: system
+  - type: systemd
+    system:
+      enabled:
+        - docker.socket
   - type: script
     snippets:
       - |
