@@ -14,18 +14,12 @@ modules:
           - com.steamgriddb.steam-rom-manager
           - io.github.ryubing.Ryujinx
           - net.retrodeck.retrodeck
-  - type: script
-    snippets:
-      # cloudflared requires this directory during installation.
-      - "mkdir -p /usr/local/bin"
   - type: dnf
     install:
       packages:
-        - cloudflared
         # renovate: datasource=github-releases depName=papi-ux/polaris
         - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora%OS_VERSION%-x86_64.rpm
         - kde-partitionmanager
-        - moby-engine
     remove:
       packages:
         - "*fcitx5*"
@@ -40,17 +34,10 @@ modules:
         - lutris
         - sunshine
         - webapp-manager
-    repos:
-      files:
-        - https://pkg.cloudflare.com/cloudflared.repo
   - type: files
     files:
       - destination: /
         source: system
-  - type: systemd
-    system:
-      enabled:
-        - docker.socket
   - type: script
     snippets:
       - |

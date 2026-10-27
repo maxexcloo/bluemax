@@ -1,10 +1,9 @@
 # Bluemax &nbsp; [![BlueBuild Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
 bluemax is my personal [Bazzite Deck](https://bazzite.gg/) image for handheld
-gaming and remote access. It follows Bazzite's `stable` channel and adds
-Cloudflare Tunnel, Docker, KDE Partition Manager, Polaris and a set of gaming
-Flatpaks I've picked. The full image configuration is in
-[`recipes/recipe.yaml`](recipes/recipe.yaml).
+gaming and remote access. It follows Bazzite's `stable` channel and adds KDE
+Partition Manager, Polaris and a set of gaming Flatpaks I've picked. The full
+image configuration is in [`recipes/recipe.yaml`](recipes/recipe.yaml).
 
 ## Building
 
