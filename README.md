@@ -1,14 +1,16 @@
 # Bluemax &nbsp; [![BlueBuild Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
 bluemax is my personal [Bazzite Deck](https://bazzite.gg/) image for handheld
-gaming and remote access. It follows Bazzite's `stable` channel and adds KDE
-Partition Manager, Polaris and a set of gaming Flatpaks I've picked. The full
-image configuration is in [`recipes/recipe.yaml`](recipes/recipe.yaml).
+gaming and remote access. It follows Bazzite Deck's `stable` channel, including
+Fedora major version upgrades once Bazzite promotes them, and adds KDE Partition
+Manager, Polaris and a set of gaming Flatpaks I've picked. The full image
+configuration is in [`recipes/recipe.yaml`](recipes/recipe.yaml).
 
 ## Building
 
-On an x86-64 Linux host with [BlueBuild](https://github.com/blue-build/cli#installation) and a
-supported container engine installed, build locally without publishing:
+On an x86-64 Linux host with
+[BlueBuild](https://github.com/blue-build/cli#installation) and a supported
+container engine installed, build locally without publishing:
 
 ```bash
 bluebuild build recipes/recipe.yaml
@@ -42,9 +44,7 @@ To rebase an existing atomic Fedora installation to the latest build:
   systemctl reboot
   ```
 
-The `latest` tag always points to the newest build. The image follows Bazzite
-Deck's upstream `stable` channel, including Fedora major version upgrades once
-Bazzite promotes them.
+The `latest` tag always points to the newest build.
 
 ## Streaming
 
@@ -70,7 +70,9 @@ sudo rpm-ostree kargs --append-if-missing="drm.edid_firmware=CONNECTOR:edid/stre
 
 ## Verification
 
-Images are signed with [Sigstore](https://www.sigstore.dev/)'s [cosign](https://github.com/sigstore/cosign). To verify the signature, download `cosign.pub` from this repo and run:
+Images are signed with [Sigstore](https://www.sigstore.dev/)'s
+[cosign](https://github.com/sigstore/cosign). To verify the signature, download
+`cosign.pub` from this repo and run:
 
 ```bash
 cosign verify --key cosign.pub ghcr.io/maxexcloo/bluemax

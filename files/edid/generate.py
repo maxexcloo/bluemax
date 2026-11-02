@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Regenerate the streaming EDID with edid-decode (CVT reduced blanking v2)."""
 
+import math
 import re
 import struct
 import subprocess
@@ -40,15 +41,8 @@ for width, height in sizes:
         )
         hf, hs, hb = map(int, horizontal.groups()[:3])
         vf, vs, vb = map(int, vertical.groups()[:3])
-        aspect = (
-            4
-            if width * 9 == height * 16
-            else 5
-            if width * 10 == height * 16
-            else 6
-            if width * 27 == height * 64
-            else 8
-        )
+        g = math.gcd(width, height)
+        aspect = {(16, 9): 4, (8, 5): 5, (64, 27): 6}.get((width // g, height // g), 8)
         flags = aspect | (0x80 if (width, height, fps) == (3840, 2160, 60) else 0)
         timing = (round(clock * 100) - 1).to_bytes(3, "little") + bytes([flags])
         timing += struct.pack(
