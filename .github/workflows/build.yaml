@@ -21,6 +21,12 @@ jobs:
   bluebuild:
     name: Build Custom Image
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - deck
+          - desktop
     steps:
       - name: Build Image
         uses: blue-build/github-action@v1
@@ -28,5 +34,5 @@ jobs:
           cosign_private_key: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && secrets.SIGNING_SECRET || '' }}
           pr_event_number: ${{ github.event.number }}
           push: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
-          recipe: recipe.yaml
+          recipe: recipe-${{ matrix.image }}.yaml
           registry_token: ${{ github.token }}

@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+base-image: ghcr.io/ublue-os/bazzite
+description: Custom Bazzite KDE image for desktop gaming.
+image-version: stable
+name: bluemax-desktop
+
+modules:
+  - from-file: common.yaml
+  - type: signing

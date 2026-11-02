@@ -1,10 +1,16 @@
 # Bluemax &nbsp; [![BlueBuild Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
-bluemax is my personal [Bazzite Deck](https://bazzite.gg/) image for handheld
-gaming and remote access. It follows Bazzite Deck's `stable` channel, including
-Fedora major version upgrades once Bazzite promotes them, and adds KDE Partition
-Manager, Polaris and a set of gaming Flatpaks I've picked. The full image
-configuration is in [`recipes/recipe.yaml`](recipes/recipe.yaml).
+bluemax builds my personal [Bazzite](https://bazzite.gg/) images. Both follow
+Bazzite's `stable` channel, including Fedora major version upgrades once Bazzite
+promotes them, and add KDE Partition Manager and a set of gaming Flatpaks I've
+picked from [`recipes/common.yaml`](recipes/common.yaml).
+
+| Image             | Base           | Adds                                       |
+| ----------------- | -------------- | ------------------------------------------ |
+| `bluemax-deck`    | `bazzite-deck` | Polaris streaming for handheld remote play |
+| `bluemax-desktop` | `bazzite`      | Nothing beyond the shared configuration    |
+
+Each image's configuration is in its `recipes/recipe-*.yaml`.
 
 ## Building
 
@@ -13,17 +19,19 @@ On an x86-64 Linux host with
 container engine installed, build locally without publishing:
 
 ```bash
-bluebuild build recipes/recipe.yaml
+bluebuild build recipes/recipe-deck.yaml
 ```
 
 ## Installation
 
-To rebase an existing atomic Fedora installation to the latest build:
+To rebase an existing atomic Fedora installation to the latest build, replace
+`IMAGE` with `bluemax-deck` or `bluemax-desktop`. A Deck still on the old
+`bluemax` image moves to `bluemax-deck` the same way.
 
 - First rebase to the unsigned image to install the signing keys and policies:
 
   ```bash
-  rpm-ostree rebase ostree-unverified-registry:ghcr.io/maxexcloo/bluemax:latest
+  rpm-ostree rebase ostree-unverified-registry:ghcr.io/maxexcloo/IMAGE:latest
   ```
 
 - Reboot to complete the rebase:
@@ -35,7 +43,7 @@ To rebase an existing atomic Fedora installation to the latest build:
 - Then rebase to the signed image:
 
   ```bash
-  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/maxexcloo/bluemax:latest
+  rpm-ostree rebase ostree-image-signed:docker://ghcr.io/maxexcloo/IMAGE:latest
   ```
 
 - Reboot again to complete the installation:
@@ -48,15 +56,15 @@ The `latest` tag always points to the newest build.
 
 ## Streaming
 
-The image includes a Desktop-only Polaris app template and
-[`polaris-display-mode`](files/system/usr/bin/polaris-display-mode). It matches
+The Deck image includes a Desktop-only Polaris app template and
+[`polaris-display-mode`](files/deck/usr/bin/polaris-display-mode). It matches
 the client's resolution and refresh rate in KDE or Gamescope and restores the
 previous mode on disconnect. KDE currently targets `DP-3`, and Gamescope uses its
 active display. It only picks modes the display advertises. If you switch desktop
 sessions during a stream, the old mode may not come back until that desktop is
 available again.
 
-The optional [streaming EDID](files/system/usr/lib/firmware/edid/streaming.bin)
+The optional [streaming EDID](files/deck/usr/lib/firmware/edid/streaming.bin)
 adds display modes for compatible external displays and is included in the
 image's initramfs. Edit [`generate.py`](files/edid/generate.py) and run
 `python3 files/edid/generate.py` with `edid-decode` installed to regenerate it.
@@ -75,7 +83,7 @@ Images are signed with [Sigstore](https://www.sigstore.dev/)'s
 `cosign.pub` from this repo and run:
 
 ```bash
-cosign verify --key cosign.pub ghcr.io/maxexcloo/bluemax
+cosign verify --key cosign.pub ghcr.io/maxexcloo/IMAGE
 ```
 
 ## Licence
