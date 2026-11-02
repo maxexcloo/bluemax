@@ -3,8 +3,9 @@
 ## Structure
 
 - Keep `cosign.pub` at the repository root as required by BlueBuild.
-- Only `files/system/` ships in the image; `files/edid/` is generator source.
+- Only `files/deck/` ships, in the Deck image; `files/edid/` is generator source.
 
 ## Verification
 
-- Run `bluebuild validate recipes/recipe.yaml`, then confirm the CI image build.
+- Run `bluebuild validate` on each changed `recipes/recipe-*.yaml`, then confirm
+  the CI image builds.
