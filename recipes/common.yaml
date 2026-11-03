@@ -7,7 +7,6 @@ modules:
         install:
           - com.github.zocker_160.SyncThingy
           - com.steamgriddb.steam-rom-manager
-          - dev.eden_emu.eden
           - net.retrodeck.retrodeck
   - type: dnf
     install:
