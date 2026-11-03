@@ -1,4 +1,4 @@
-# Bluemax &nbsp; [![BlueBuild Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
+# Bluemax &nbsp; [![Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
 bluemax builds my personal [Bazzite](https://bazzite.gg/) images. Both follow
 Bazzite's `stable` channel, including Fedora major version upgrades once Bazzite
@@ -63,6 +63,15 @@ previous mode on disconnect. KDE currently targets `DP-3`, and Gamescope uses it
 active display. It only picks modes the display advertises. If you switch desktop
 sessions during a stream, the old mode may not come back until that desktop is
 available again.
+
+Polaris's user service normally starts with the desktop, so it stops in Game
+Mode. Run this once from Desktop Mode to start it at boot so it survives mode
+switches:
+
+```bash
+sudo -H polaris --setup-host --enable-headless-boot
+systemctl --user enable --now polaris
+```
 
 The optional [streaming EDID](files/deck/usr/lib/firmware/edid/streaming.bin)
 adds display modes for compatible external displays and is included in the
