@@ -1,4 +1,4 @@
-name: BlueBuild
+name: Build
 
 on:
   pull_request:
@@ -48,8 +48,8 @@ jobs:
           images=$(find recipes -name 'recipe-*.yaml' | sed 's|^recipes/recipe-||; s|\.yaml$||' | sort | jq -Rnc '[inputs]')
           echo "images=$images" >> "$GITHUB_OUTPUT"
 
-  bluebuild:
-    name: Build Custom Image
+  build:
+    name: Build ${{ matrix.image }}
     needs: [checks, prepare]
     runs-on: ubuntu-latest
     permissions:
@@ -73,7 +73,7 @@ jobs:
     if: always()
     name: Check
     runs-on: ubuntu-latest
-    needs: [checks, prepare, bluebuild]
+    needs: [checks, prepare, build]
     steps:
       - name: Verify Checks & Builds
         run: test "$FAILED" = false
