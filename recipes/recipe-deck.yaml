@@ -31,5 +31,7 @@ modules:
           /usr/share/applications/steam.desktop; do
           desktop-file-edit --set-key=NoDisplay --set-value=true "$desktop_entry"
         done
+      # The packaged unit only starts with desktop autostart, which Game Mode skips.
+      - systemctl --global add-wants default.target polaris.service
   - type: initramfs
   - type: signing

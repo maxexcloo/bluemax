@@ -2,7 +2,7 @@
 
 bluemax builds my personal [Bazzite](https://bazzite.gg/) images. Both follow
 Bazzite's `stable` channel, including Fedora major version upgrades once Bazzite
-promotes them, and add KDE Partition Manager and a set of gaming Flatpaks I've
+promotes them, and add KDE Partition Manager, the Eden AppImage and a set of gaming Flatpaks I've
 picked from [`recipes/common.yaml`](recipes/common.yaml).
 
 | Image             | Base           | Adds                                       |
@@ -25,8 +25,7 @@ bluebuild build recipes/recipe-deck.yaml
 ## Installation
 
 To rebase an existing atomic Fedora installation to the latest build, replace
-`IMAGE` with `bluemax-deck` or `bluemax-desktop`. A Deck still on the old
-`bluemax` image moves to `bluemax-deck` the same way.
+`IMAGE` with `bluemax-deck` or `bluemax-desktop`.
 
 - First rebase to the unsigned image to install the signing keys and policies:
 
@@ -52,8 +51,6 @@ To rebase an existing atomic Fedora installation to the latest build, replace
   systemctl reboot
   ```
 
-The `latest` tag always points to the newest build.
-
 ## Streaming
 
 The Deck image includes a Desktop-only Polaris app template and
@@ -64,13 +61,12 @@ active display. It only picks modes the display advertises. If you switch deskto
 sessions during a stream, the old mode may not come back until that desktop is
 available again.
 
-Polaris's user service normally starts with the desktop, so it stops in Game
-Mode. Run this once from Desktop Mode to start it at boot so it survives mode
-switches:
+Polaris starts at login in Game Mode and Desktop Mode. Enable lingering once so
+it keeps running while you switch between them; an active stream still drops at
+the switch, so reconnect afterwards:
 
 ```bash
-sudo -H polaris --setup-host --enable-headless-boot
-systemctl --user enable --now polaris
+sudo loginctl enable-linger "$USER"
 ```
 
 The optional [streaming EDID](files/deck/usr/lib/firmware/edid/streaming.bin)
