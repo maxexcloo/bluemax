@@ -25,3 +25,17 @@ modules:
         - "libime*"
         - lutris
         - webapp-manager
+  - type: script
+    snippets:
+      - |
+        # renovate: datasource=forgejo-releases depName=eden-emu/eden
+        version=v0.2.1
+        curl -fLo /usr/bin/eden "https://stable.eden-emu.dev/$version/Eden-Linux-$version-amd64-clang-pgo.AppImage"
+        chmod +x /usr/bin/eden
+        cat > /usr/share/applications/eden.desktop <<EOF
+        [Desktop Entry]
+        Categories=Game;Emulator;
+        Exec=eden %f
+        Name=Eden
+        Type=Application
+        EOF

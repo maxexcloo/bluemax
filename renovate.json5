@@ -1,4 +1,7 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["github>maxexcloo/dotfiles//renovate/default.json5"],
+  packageRules: [
+    { matchPackageNames: ["eden-emu/eden"], registryUrls: ["https://git.eden-emu.dev"] },
+  ],
 }
