@@ -2,8 +2,9 @@
 
 bluemax builds my personal [Bazzite](https://bazzite.gg/) images. Both follow
 Bazzite's `stable` channel, including Fedora major version upgrades once Bazzite
-promotes them, and add KDE Partition Manager, the Eden AppImage and a set of gaming Flatpaks I've
-picked from [`recipes/common.yaml`](recipes/common.yaml).
+promotes them, and add KDE Partition Manager, the Eden & Eglantine AppImages and
+a set of gaming Flatpaks I've picked from
+[`recipes/common.yaml`](recipes/common.yaml).
 
 | Image             | Base           | Adds                                       |
 | ----------------- | -------------- | ------------------------------------------ |
