@@ -12,8 +12,6 @@ modules:
       cleanup: true
       files:
         - https://repo.papi-ux.com/fedora/polaris.repo
-      keys:
-        - https://repo.papi-ux.com/polaris.gpg
     install:
       packages:
         - polaris
