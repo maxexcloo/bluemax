@@ -8,11 +8,15 @@ name: bluemax-deck
 modules:
   - from-file: common.yaml
   - type: dnf
+    repos:
+      cleanup: true
+      files:
+        - https://repo.papi-ux.com/fedora/polaris.repo
+      keys:
+        - https://repo.papi-ux.com/polaris.gpg
     install:
       packages:
-        # Polaris publishes no Fedora 45 RPM yet; the Fedora 44 build installs cleanly.
-        # renovate: datasource=github-releases depName=papi-ux/polaris
-        - https://github.com/papi-ux/polaris/releases/download/v1.4.13/Polaris-fedora44-x86_64.rpm
+        - polaris
   - type: files
     files:
       - destination: /
