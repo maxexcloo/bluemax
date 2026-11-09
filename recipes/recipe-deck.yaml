@@ -6,7 +6,7 @@ image-version: stable
 name: bluemax-deck
 
 modules:
-  - from-file: common.yaml
+  - from-file: bazzite.yaml
   - type: dnf
     repos:
       cleanup: true
