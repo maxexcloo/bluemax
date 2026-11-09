@@ -1,12 +1,14 @@
 # Bluemax &nbsp; [![Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
 bluemax builds my personal [Bazzite](https://bazzite.gg/) images for handheld
-and desktop gaming.
+and desktop gaming and a [uCore](https://projectucore.org/) image for homelab
+servers.
 
 Choose an image:
 
 - [`bluemax-deck`](recipes/recipe-deck.yaml) for handheld gaming and Polaris streaming.
 - [`bluemax-desktop`](recipes/recipe-desktop.yaml) for desktop gaming.
+- [`bluemax-server`](recipes/recipe-server.yaml) for homelab servers.
 
 ## Building
 
@@ -21,7 +23,7 @@ bluebuild build recipes/recipe-deck.yaml
 ## Installation
 
 To rebase an existing atomic Fedora installation to the latest build, replace
-`IMAGE` with `bluemax-deck` or `bluemax-desktop`.
+`IMAGE` with `bluemax-deck`, `bluemax-desktop` or `bluemax-server`.
 
 - First rebase to the unsigned image to install the signing keys and policies:
 

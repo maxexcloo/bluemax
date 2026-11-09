@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+base-image: ghcr.io/ublue-os/ucore
+description: Custom uCore image for homelab servers.
+image-version: stable
+name: bluemax-server
+
+modules:
+  - type: files
+    files:
+      - destination: /
+        source: common
+      - destination: /
+        source: server
+  - type: systemd
+    system:
+      enabled:
+        - tailscaled.service
+      masked:
+        - cockpit.service
+        - cockpit.socket
+  - type: signing
