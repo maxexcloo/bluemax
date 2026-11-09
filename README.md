@@ -1,16 +1,12 @@
 # Bluemax &nbsp; [![Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
-bluemax builds my personal [Bazzite](https://bazzite.gg/) images. Both follow
-Bazzite's `stable` channel, including Fedora major version upgrades once Bazzite
-promotes them, and add KDE Partition Manager and a set of gaming Flatpaks I've
-picked from [`recipes/common.yaml`](recipes/common.yaml).
+bluemax builds my personal [Bazzite](https://bazzite.gg/) images for handheld
+and desktop gaming.
 
-| Image             | Base           | Adds                                       |
-| ----------------- | -------------- | ------------------------------------------ |
-| `bluemax-deck`    | `bazzite-deck` | Polaris streaming for handheld remote play |
-| `bluemax-desktop` | `bazzite`      | Nothing beyond the shared configuration    |
+Choose an image:
 
-Each image's configuration is in its `recipes/recipe-*.yaml`.
+- [`bluemax-deck`](recipes/recipe-deck.yaml) for handheld gaming and Polaris streaming.
+- [`bluemax-desktop`](recipes/recipe-desktop.yaml) for desktop gaming.
 
 ## Building
 
@@ -70,8 +66,8 @@ sudo loginctl enable-linger "$USER"
 ```
 
 The optional [streaming EDID](files/deck/usr/lib/firmware/edid/streaming.bin)
-adds display modes for compatible external displays and is included in the
-image's initramfs. Edit [`generate.py`](files/edid/generate.py) and run
+adds display modes for compatible external displays. Edit
+[`generate.py`](files/edid/generate.py) and run
 `python3 files/edid/generate.py` with `edid-decode` installed to regenerate it.
 
 To enable the override, replace `CONNECTOR` with your external display's DRM
