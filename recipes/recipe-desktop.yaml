@@ -6,5 +6,5 @@ image-version: stable
 name: bluemax-desktop
 
 modules:
-  - from-file: common.yaml
+  - from-file: bazzite.yaml
   - type: signing
