@@ -5,6 +5,7 @@ image-version: stable
 name: bluemax-server
 
 modules:
+  - type: brew
   - type: files
     files:
       - destination: /
