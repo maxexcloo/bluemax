@@ -6,6 +6,10 @@ name: bluemax-server
 
 modules:
   - type: brew
+  - type: dnf
+    install:
+      packages:
+        - fish
   - type: files
     files:
       - destination: /
