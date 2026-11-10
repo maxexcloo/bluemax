@@ -11,6 +11,7 @@ modules:
         source: common
       - destination: /
         source: server
+  - type: brew
   - type: systemd
     system:
       enabled:
