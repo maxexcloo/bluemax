@@ -5,13 +5,13 @@ image-version: stable
 name: bluemax-server
 
 modules:
+  - type: brew
   - type: files
     files:
       - destination: /
         source: common
       - destination: /
         source: server
-  - type: brew
   - type: systemd
     system:
       enabled:
