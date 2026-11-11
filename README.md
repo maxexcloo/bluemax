@@ -49,6 +49,22 @@ To rebase an existing atomic Fedora installation to the latest build, replace
   systemctl reboot
   ```
 
+## Server VMs
+
+The server image includes Fedora's native [Incus](https://linuxcontainers.org/incus/docs/main/installing/)
+packages and QEMU/KVM support for x86-64 VMs, including UEFI firmware and the
+Incus guest agent for injection into guests. Service activation, storage,
+network isolation and API access are configured by
+[Homelab](https://github.com/maxexcloo/homelab); the image does not initialise
+Incus or enable its services.
+
+Before running VMs on Mercury, deploy and boot a server image containing these
+packages, enable hardware virtualisation in firmware and apply the Homelab host
+configuration. GARM configuration and runner rollout belong to
+[Kubelab](https://github.com/maxexcloo/kubelab). An image build does not verify
+that a live VM job can boot or that its network isolation works; verify both
+during rollout before enabling repository pools.
+
 ## Streaming
 
 The Deck image includes a Desktop-only Polaris app template and

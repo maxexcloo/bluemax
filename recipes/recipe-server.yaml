@@ -9,7 +9,18 @@ modules:
   - type: dnf
     install:
       packages:
+        - edk2-ovmf
         - fish
+        - incus
+        - incus-agent
+        # Incus creates these devices even for headless x86-64 VMs.
+        - qemu-audio-spice
+        - qemu-char-spice
+        - qemu-device-display-virtio-vga
+        - qemu-device-usb-redirect
+        - qemu-img
+        - qemu-kvm-core
+        - xorriso
   - type: files
     files:
       - destination: /
