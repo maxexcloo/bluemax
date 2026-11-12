@@ -51,26 +51,17 @@ To rebase an existing atomic Fedora installation to the latest build, replace
 
 ## Streaming
 
-The Deck image includes a Desktop-only Polaris app template and
-[`polaris-display-mode`](files/deck/usr/bin/polaris-display-mode). It matches
-the client's resolution and refresh rate in KDE or Gamescope and restores the
-previous mode on disconnect. KDE currently targets `DP-3`, and Gamescope uses its
-active display. It only picks modes the display advertises. If you switch desktop
-sessions during a stream, the old mode may not come back until that desktop is
-available again.
-
-Polaris starts at login in Game Mode and Desktop Mode. Enable lingering once so
-it keeps running while you switch between them; an active stream still drops at
-the switch, so reconnect afterwards:
+On the Deck image, enable lingering once so Polaris keeps running when you
+switch between Game Mode and Desktop Mode; an active stream still drops at the
+switch, so reconnect afterwards:
 
 ```bash
 sudo loginctl enable-linger "$USER"
 ```
 
 The optional [streaming EDID](files/deck/usr/lib/firmware/edid/streaming.bin)
-adds display modes for compatible external displays. Edit
-[`generate.py`](files/edid/generate.py) and run
-`python3 files/edid/generate.py` with `edid-decode` installed to regenerate it.
+adds display modes for compatible external displays. Regenerate it with
+`python3 files/edid/generate.py` (needs `edid-decode`).
 
 To enable the override, replace `CONNECTOR` with your external display's DRM
 connector name, then reboot:
