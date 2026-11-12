@@ -17,6 +17,16 @@ modules:
         source: common
       - destination: /
         source: server
+  - type: script
+    snippets:
+      - |
+        set -eu
+        mkdir -p /usr/lib/orca-server
+        # renovate: datasource=github-releases depName=stablyai/orca
+        curl -fsSL https://github.com/stablyai/orca/releases/download/v1.4.257/orca-server-linux-x64.tar.gz -o /tmp/orca-server.tar.gz
+        tar -xzf /tmp/orca-server.tar.gz --strip-components=1 -C /usr/lib/orca-server
+        rm /tmp/orca-server.tar.gz
+        ln -s /usr/lib/orca-server/bin/orca-ide /usr/bin/orca-ide
   - type: systemd
     system:
       enabled:
