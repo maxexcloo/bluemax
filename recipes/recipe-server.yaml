@@ -20,6 +20,7 @@ modules:
         - qemu-device-usb-redirect
         - qemu-img
         - qemu-kvm-core
+        - syncthing
         - xorriso
   - type: files
     files:
