@@ -1,8 +1,7 @@
 # Bluemax &nbsp; [![Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
 
-bluemax builds my personal [Bazzite](https://bazzite.gg/) images for handheld
-and desktop gaming and a [uCore](https://projectucore.org/) image for homelab
-servers.
+bluemax builds my personal [Bazzite](https://bazzite.gg/) Deck image for gaming
+and a [uCore](https://projectucore.org/) image for homelab servers.
 
 ## Building
 
@@ -16,8 +15,8 @@ bluebuild build recipes/bazzite.yaml
 
 ## Installation
 
-To rebase an existing atomic Fedora installation, replace `IMAGE` with the chosen
-image name.
+To rebase an existing atomic Fedora installation, replace `IMAGE` with
+`bluemax-bazzite` or `bluemax-ucore`.
 
 - First rebase to the unsigned image to install the signing keys and policies:
 
