@@ -5,6 +5,7 @@ image-version: stable
 name: bluemax-server
 
 modules:
+  - from-file: common.yaml
   - type: brew
   - type: dnf
     install:
@@ -13,8 +14,6 @@ modules:
         - syncthing
   - type: files
     files:
-      - destination: /
-        source: common
       - destination: /
         source: server
   - type: systemd

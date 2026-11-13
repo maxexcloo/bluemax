@@ -3,8 +3,7 @@
 ## Structure
 
 - Keep `cosign.pub` at the repository root as required by BlueBuild.
-- `files/<image>/` ships in that image and `files/common/` in all of them;
-  `files/edid/` is generator source.
+- `files/<image>/` ships in that image; `files/edid/` is generator source.
 - CI builds every `recipes/recipe-<image>.yaml`; name its image `bluemax-<image>`
   and list it in the README.
 

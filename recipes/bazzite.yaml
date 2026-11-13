@@ -23,7 +23,4 @@ modules:
         - kwrite
         - lutris
         - webapp-manager
-  - type: files
-    files:
-      - destination: /
-        source: common
+  - from-file: common.yaml
