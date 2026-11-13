@@ -36,7 +36,7 @@ jobs:
     name: Prepare
     runs-on: ubuntu-latest
     outputs:
-      images: ${{ steps.recipes.outputs.images }}
+      recipes: ${{ steps.recipes.outputs.recipes }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -45,11 +45,11 @@ jobs:
       - id: recipes
         name: Discover Recipes
         run: |
-          images=$(find recipes -name 'recipe-*.yaml' | sed 's|^recipes/recipe-||; s|\.yaml$||' | sort | jq -Rnc '[inputs]')
-          echo "images=$images" >> "$GITHUB_OUTPUT"
+          recipes=$(find recipes -maxdepth 1 -name '*.yaml' | sed 's|^recipes/||; s|\.yaml$||' | sort | jq -Rnc '[inputs]')
+          echo "recipes=$recipes" >> "$GITHUB_OUTPUT"
 
   build:
-    name: Build ${{ matrix.image }}
+    name: Build ${{ matrix.recipe }}
     needs: [checks, prepare]
     runs-on: ubuntu-latest
     permissions:
@@ -58,7 +58,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: ${{ fromJSON(needs.prepare.outputs.images) }}
+        recipe: ${{ fromJSON(needs.prepare.outputs.recipes) }}
     steps:
       - name: Build Image
         uses: blue-build/github-action@v1
@@ -66,7 +66,7 @@ jobs:
           cosign_private_key: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && secrets.SIGNING_SECRET || '' }}
           pr_event_number: ${{ github.event.number }}
           push: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
-          recipe: recipe-${{ matrix.image }}.yaml
+          recipe: ${{ matrix.recipe }}.yaml
           registry_token: ${{ github.token }}
 
   check:

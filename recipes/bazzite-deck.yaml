@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 base-image: ghcr.io/ublue-os/bazzite-deck
 description: Custom Bazzite Deck image for handheld gaming and remote access.
@@ -6,19 +5,42 @@ image-version: stable
 name: bluemax-deck
 
 modules:
-  - from-file: bazzite.yaml
+  - type: default-flatpaks
+    configurations:
+      - scope: system
+        install:
+          - com.github.zocker_160.SyncThingy
+          - com.steamgriddb.steam-rom-manager
+          - net.retrodeck.retrodeck
+  - type: script
+    snippets:
+      - mkdir -p /var/usrlocal/bin
   - type: dnf
     repos:
       cleanup: true
       files:
+        - https://pkg.cloudflare.com/cloudflared.repo
         - https://repo.papi-ux.com/fedora/polaris.repo
     install:
       packages:
+        - cloudflared
+        - kde-partitionmanager
         - polaris
+    remove:
+      packages:
+        - "*rom-properties*"
+        - filelight
+        - gnome-disk-utility
+        - kfind
+        - "krdc*"
+        - "krfb*"
+        - kwrite
+        - lutris
+        - webapp-manager
   - type: files
     files:
       - destination: /
-        source: deck
+        source: bazzite-deck
   - type: script
     snippets:
       - |

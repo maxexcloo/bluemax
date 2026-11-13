@@ -5,17 +5,24 @@ image-version: stable
 name: bluemax-server
 
 modules:
-  - from-file: common.yaml
   - type: brew
+  - type: script
+    snippets:
+      - mkdir -p /var/usrlocal/bin
   - type: dnf
+    repos:
+      cleanup: true
+      files:
+        - https://pkg.cloudflare.com/cloudflared.repo
     install:
       packages:
+        - cloudflared
         - fish
         - syncthing
   - type: files
     files:
       - destination: /
-        source: server
+        source: ucore
   - type: systemd
     system:
       enabled:

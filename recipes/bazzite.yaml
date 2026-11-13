@@ -1,5 +1,9 @@
----
-# yaml-language-server: $schema=https://schema.blue-build.org/module-list-v1.json
+# yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
+base-image: ghcr.io/ublue-os/bazzite
+description: Custom Bazzite KDE image for desktop gaming.
+image-version: stable
+name: bluemax-desktop
+
 modules:
   - type: default-flatpaks
     configurations:
@@ -8,9 +12,17 @@ modules:
           - com.github.zocker_160.SyncThingy
           - com.steamgriddb.steam-rom-manager
           - net.retrodeck.retrodeck
+  - type: script
+    snippets:
+      - mkdir -p /var/usrlocal/bin
   - type: dnf
+    repos:
+      cleanup: true
+      files:
+        - https://pkg.cloudflare.com/cloudflared.repo
     install:
       packages:
+        - cloudflared
         - kde-partitionmanager
     remove:
       packages:
@@ -23,4 +35,4 @@ modules:
         - kwrite
         - lutris
         - webapp-manager
-  - from-file: common.yaml
+  - type: signing
