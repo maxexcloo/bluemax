@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
-base-image: ghcr.io/ublue-os/bazzite
-description: Custom Bazzite KDE image for desktop gaming.
+base-image: ghcr.io/ublue-os/bazzite-deck
+description: Custom Bazzite image for gaming and remote access.
 image-version: stable
-name: bluemax-desktop
+name: bluemax-deck
 
 modules:
   - type: default-flatpaks
@@ -20,10 +20,12 @@ modules:
       cleanup: true
       files:
         - https://pkg.cloudflare.com/cloudflared.repo
+        - https://repo.papi-ux.com/fedora/polaris.repo
     install:
       packages:
         - cloudflared
         - kde-partitionmanager
+        - polaris
     remove:
       packages:
         - "*rom-properties*"
@@ -35,4 +37,20 @@ modules:
         - kwrite
         - lutris
         - webapp-manager
+  - type: files
+    files:
+      - destination: /
+        source: bazzite
+  - type: script
+    snippets:
+      - |
+        for desktop_entry in \
+          /usr/share/applications/bazzite-documentation.desktop \
+          /usr/share/applications/bbrew.desktop \
+          /usr/share/applications/discourse.desktop \
+          /usr/share/applications/org.kde.kdebugsettings.desktop \
+          /usr/share/applications/steam.desktop; do
+          desktop-file-edit --set-key=NoDisplay --set-value=true "$desktop_entry"
+        done
+  - type: initramfs
   - type: signing

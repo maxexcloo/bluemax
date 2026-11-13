@@ -45,7 +45,7 @@ image name.
 
 ## Streaming
 
-On the Deck image, enable lingering once so Polaris keeps running when you
+On the Bazzite image, enable lingering once so Polaris keeps running when you
 switch between Game Mode and Desktop Mode; an active stream still drops at the
 switch, so reconnect afterwards:
 
@@ -53,7 +53,7 @@ switch, so reconnect afterwards:
 sudo loginctl enable-linger "$USER"
 ```
 
-The optional [streaming EDID](files/bazzite-deck/usr/lib/firmware/edid/streaming.bin)
+The optional [streaming EDID](files/bazzite/usr/lib/firmware/edid/streaming.bin)
 adds display modes for compatible external displays. Regenerate it with
 `python3 files/edid/generate.py` (needs `edid-decode`).
 
