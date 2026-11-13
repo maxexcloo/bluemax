@@ -2,7 +2,7 @@
 base-image: ghcr.io/ublue-os/ucore
 description: Custom uCore image for homelab servers.
 image-version: stable
-name: bluemax-server
+name: bluemax-ucore
 
 modules:
   - type: brew

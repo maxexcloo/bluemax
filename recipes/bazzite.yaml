@@ -2,7 +2,7 @@
 base-image: ghcr.io/ublue-os/bazzite-deck
 description: Custom Bazzite image for gaming and remote access.
 image-version: stable
-name: bluemax
+name: bluemax-bazzite
 
 modules:
   - type: default-flatpaks
