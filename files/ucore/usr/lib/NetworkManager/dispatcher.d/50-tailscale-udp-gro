@@ -1,14 +1,14 @@
 #!/usr/bin/bash
 set -Eeuo pipefail
 
-case "${2:-}" in
+case "${2}" in
   up|dhcp4-change|dhcp6-change) ;;
   *) exit 0 ;;
 esac
 
 # Tailscale tunes the interface carrying the default route.
 route=$(/usr/sbin/ip -o route get 8.8.8.8) || exit 0
-[[ ${route} =~ \ dev\ ([^ ]+) && ${BASH_REMATCH[1]} == "${1:-}" ]] || exit 0
+[[ ${route} =~ \ dev\ ([^ ]+) && ${BASH_REMATCH[1]} == "${1}" ]] || exit 0
 
 exec /usr/bin/ethtool -K "${1}" \
   rx-udp-gro-forwarding on \
