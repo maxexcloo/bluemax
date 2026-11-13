@@ -6,17 +6,23 @@ name: bluemax-server
 
 modules:
   - type: brew
+  - type: script
+    snippets:
+      - mkdir -p /var/usrlocal/bin
   - type: dnf
+    repos:
+      cleanup: true
+      files:
+        - https://pkg.cloudflare.com/cloudflared.repo
     install:
       packages:
+        - cloudflared
         - fish
         - syncthing
   - type: files
     files:
       - destination: /
-        source: common
-      - destination: /
-        source: server
+        source: ucore
   - type: systemd
     system:
       enabled:

@@ -4,12 +4,6 @@ bluemax builds my personal [Bazzite](https://bazzite.gg/) images for handheld
 and desktop gaming and a [uCore](https://projectucore.org/) image for homelab
 servers.
 
-Choose an image:
-
-- [`bluemax-deck`](recipes/recipe-deck.yaml) for handheld gaming and Polaris streaming.
-- [`bluemax-desktop`](recipes/recipe-desktop.yaml) for desktop gaming.
-- [`bluemax-server`](recipes/recipe-server.yaml) for homelab servers.
-
 ## Building
 
 On an x86-64 Linux host with
@@ -17,13 +11,13 @@ On an x86-64 Linux host with
 container engine installed, build locally without publishing:
 
 ```bash
-bluebuild build recipes/recipe-deck.yaml
+bluebuild build recipes/bazzite.yaml
 ```
 
 ## Installation
 
-To rebase an existing atomic Fedora installation to the latest build, replace
-`IMAGE` with `bluemax-deck`, `bluemax-desktop` or `bluemax-server`.
+To rebase an existing atomic Fedora installation, replace `IMAGE` with the chosen
+image name.
 
 - First rebase to the unsigned image to install the signing keys and policies:
 
@@ -51,7 +45,7 @@ To rebase an existing atomic Fedora installation to the latest build, replace
 
 ## Streaming
 
-On the Deck image, enable lingering once so Polaris keeps running when you
+On the Bazzite image, enable lingering once so Polaris keeps running when you
 switch between Game Mode and Desktop Mode; an active stream still drops at the
 switch, so reconnect afterwards:
 
@@ -59,7 +53,7 @@ switch, so reconnect afterwards:
 sudo loginctl enable-linger "$USER"
 ```
 
-The optional [streaming EDID](files/deck/usr/lib/firmware/edid/streaming.bin)
+The optional [streaming EDID](files/bazzite/usr/lib/firmware/edid/streaming.bin)
 adds display modes for compatible external displays. Regenerate it with
 `python3 files/edid/generate.py` (needs `edid-decode`).
 

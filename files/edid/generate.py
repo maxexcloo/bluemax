@@ -106,7 +106,7 @@ base[127] = (-sum(base)) & 255
 result = bytes(base) + bytes(block_map) + source[128:] + b"".join(blocks)
 assert len(result) == (base[126] + 1) * 128
 assert all(sum(result[i : i + 128]) % 256 == 0 for i in range(0, len(result), 128))
-out = directory.parent / "deck/usr/lib/firmware/edid/streaming.bin"
+out = directory.parent / "bazzite/usr/lib/firmware/edid/streaming.bin"
 out.write_bytes(result)
 print(
     f"{out}: {len(result)} bytes; {len(sizes)} resolutions, 60/120 Hz; original TV CTA preserved"
