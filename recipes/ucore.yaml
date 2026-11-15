@@ -7,8 +7,8 @@ name: bluemax-ucore
 modules:
   - type: script
     snippets:
-      - mkdir -p /var/usrlocal/bin
       - ln -sf ../usr/share/zoneinfo/Australia/Sydney /etc/localtime
+      - mkdir -p /var/usrlocal/bin
   - type: dnf
     repos:
       cleanup: true
