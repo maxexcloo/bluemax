@@ -8,6 +8,7 @@ modules:
   - type: script
     snippets:
       - mkdir -p /var/usrlocal/bin
+      - ln -sf ../usr/share/zoneinfo/Australia/Sydney /etc/localtime
   - type: dnf
     repos:
       cleanup: true
