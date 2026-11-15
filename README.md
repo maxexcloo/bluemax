@@ -1,6 +1,6 @@
-# Bluemax &nbsp; [![Build Badge](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml/badge.svg)](https://github.com/maxexcloo/bluemax/actions/workflows/build.yaml)
+# Bluemax
 
-bluemax builds my personal [Bazzite](https://bazzite.gg/) Deck image for gaming
+Bluemax builds my personal [Bazzite](https://bazzite.gg/) Deck image for gaming
 and a [uCore](https://projectucore.org/) image for homelab servers.
 
 ## Building
@@ -13,9 +13,18 @@ container engine installed, build locally without publishing:
 bluebuild build recipes/bazzite.yaml
 ```
 
+## Development
+
+Install the [shared Mise configuration](https://github.com/maxexcloo/dotfiles#shared-tools--tasks)
+before running local Mise tasks.
+
+```bash
+mise run check
+```
+
 ## Installation
 
-To rebase an existing atomic Fedora installation, replace `IMAGE` with
+To rebase an existing Fedora Atomic installation, replace `IMAGE` with
 `bluemax-bazzite` or `bluemax-ucore`.
 
 - First rebase to the unsigned image to install the signing keys and policies:

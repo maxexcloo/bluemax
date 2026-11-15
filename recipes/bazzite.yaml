@@ -44,13 +44,11 @@ modules:
   - type: script
     snippets:
       - |
-        for desktop_entry in \
+        desktop-file-edit --set-key=NoDisplay --set-value=true \
           /usr/share/applications/bazzite-documentation.desktop \
           /usr/share/applications/bbrew.desktop \
           /usr/share/applications/discourse.desktop \
           /usr/share/applications/org.kde.kdebugsettings.desktop \
-          /usr/share/applications/steam.desktop; do
-          desktop-file-edit --set-key=NoDisplay --set-value=true "$desktop_entry"
-        done
+          /usr/share/applications/steam.desktop
   - type: initramfs
   - type: signing

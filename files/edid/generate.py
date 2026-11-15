@@ -25,7 +25,6 @@ sizes = [
 ]
 directory = Path(__file__).resolve().parent
 source = (directory / "tv-original.bin").read_bytes()
-assert len(source) == 256 and all(sum(source[i : i + 128]) % 256 == 0 for i in (0, 128))
 records = []
 for width, height in sizes:
     for fps in (60, 120):

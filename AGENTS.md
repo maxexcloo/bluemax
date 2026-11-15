@@ -11,5 +11,5 @@
 
 ## Verification
 
-- Run `bluebuild validate` on each changed `recipes/*.yaml`, then confirm
-  the CI image builds.
+- Run `mise run check`, and `bluebuild validate` on each changed
+  `recipes/*.yaml`, then confirm the CI image builds.
