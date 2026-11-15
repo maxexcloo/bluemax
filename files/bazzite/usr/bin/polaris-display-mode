@@ -79,6 +79,7 @@ with (runtime / "polaris-display-mode.lock").open("w") as lock:
         sys.exit(0)
     if action == "apply" and kde:
         outputs = json.loads(run("kscreen-doctor", "--json"))["outputs"]
+        # DP-3 is the owner's dock output; other connectors are left unchanged.
         output = next(
             (o for o in outputs if o["name"] == "DP-3" and o["enabled"]), None
         )
