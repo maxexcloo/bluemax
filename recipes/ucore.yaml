@@ -5,7 +5,6 @@ image-version: stable
 name: bluemax-ucore
 
 modules:
-  - type: brew
   - type: script
     snippets:
       - mkdir -p /var/usrlocal/bin
@@ -13,11 +12,13 @@ modules:
     repos:
       cleanup: true
       files:
+        - https://mise.jdx.dev/rpm/mise.repo
         - https://pkg.cloudflare.com/cloudflared.repo
     install:
       packages:
         - cloudflared
         - fish
+        - mise
         - syncthing
   - type: files
     files:
