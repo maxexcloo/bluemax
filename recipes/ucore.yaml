@@ -4,9 +4,24 @@ description: Custom uCore image for homelab servers.
 image-version: stable
 name: bluemax-ucore
 
+stages:
+  - name: caddy
+    # renovate: datasource=docker depName=caddy
+    from: docker.io/library/caddy:2.11.9-builder
+    modules:
+      - type: script
+        snippets:
+          # renovate: datasource=github-tags depName=caddy-dns/cloudflare
+          - CGO_ENABLED=0 XCADDY_SETCAP=0 xcaddy build --with github.com/caddy-dns/cloudflare@v0.2.4 --output /usr/bin/caddy
+
 modules:
+  - type: copy
+    from: caddy
+    src: /usr/bin/caddy
+    dest: /usr/bin/caddy
   - type: script
     snippets:
+      - caddy list-modules | grep -Fx dns.providers.cloudflare
       - ln -sf ../usr/share/zoneinfo/Australia/Sydney /etc/localtime
       - mkdir -p /var/usrlocal/bin
   - type: dnf
