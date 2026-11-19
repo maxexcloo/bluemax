@@ -28,9 +28,14 @@ jobs:
       - name: Set Up Shared Tools & Tasks
         uses: maxexcloo/dotfiles/.github/actions/mise@main
         with:
-          tools: actionlint node@24 npm:renovate oxfmt ruff
+          tools: actionlint node@24 npm:renovate oxfmt ruff shellcheck
       - name: Run Checks
         run: mise run check
+      - name: Check Shipped Scripts
+        run: |
+          ruff check --extend-select I files/bazzite/usr/bin/polaris-display-mode
+          ruff format --check files/bazzite/usr/bin/polaris-display-mode
+          shellcheck files/ucore/usr/lib/NetworkManager/dispatcher.d/50-tailscale-udp-gro
 
   prepare:
     name: Prepare
